@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5KK-0o-l8c">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="0PG-1C-M4A">
+            <objects>
+                <viewController id="5KK-0o-l8c" customClass="ViewController" customModule="SetGameLuisManon" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0eq-av-tWM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="JTM-lu-ah4">
+                                <rect key="frame" x="31" y="20" width="312" height="513.5"/>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Usi-mf-ptB">
+                                <rect key="frame" x="75" y="583" width="225" height="50.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score : 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fNq-Be-f2V">
+                                        <rect key="frame" x="0.0" y="0.0" width="225" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fyy-Ja-sBz">
+                                        <rect key="frame" x="0.0" y="20.5" width="225" height="30"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YBz-S8-HgT">
+                                                <rect key="frame" x="0.0" y="0.0" width="75" height="30"/>
+                                                <state key="normal" title="New Game"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kp8-Fg-LH1">
+                                                <rect key="frame" x="75" y="0.0" width="75" height="30"/>
+                                                <state key="normal" title="Peak"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zKA-uG-55g">
+                                                <rect key="frame" x="150" y="0.0" width="75" height="30"/>
+                                                <state key="normal" title="Deal-3"/>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Usi-mf-ptB" firstAttribute="leading" secondItem="dA0-BO-FJI" secondAttribute="leading" constant="75" id="Eie-3h-1j9"/>
+                            <constraint firstItem="dA0-BO-FJI" firstAttribute="trailing" secondItem="JTM-lu-ah4" secondAttribute="trailing" constant="32" id="Hdx-IM-4Xj"/>
+                            <constraint firstItem="JTM-lu-ah4" firstAttribute="leading" secondItem="dA0-BO-FJI" secondAttribute="leading" constant="31" id="Imc-hG-srC"/>
+                            <constraint firstItem="fyy-Ja-sBz" firstAttribute="top" secondItem="JTM-lu-ah4" secondAttribute="bottom" constant="70" id="LzT-FN-C4L"/>
+                            <constraint firstItem="dA0-BO-FJI" firstAttribute="bottom" secondItem="Usi-mf-ptB" secondAttribute="bottom" constant="33.5" id="Wpi-Ug-Gyl"/>
+                            <constraint firstItem="Usi-mf-ptB" firstAttribute="centerX" secondItem="JTM-lu-ah4" secondAttribute="centerX" id="ij6-x3-g0L"/>
+                            <constraint firstItem="dA0-BO-FJI" firstAttribute="trailing" secondItem="Usi-mf-ptB" secondAttribute="trailing" constant="75" id="pxw-bn-UT5"/>
+                            <constraint firstItem="JTM-lu-ah4" firstAttribute="top" secondItem="dA0-BO-FJI" secondAttribute="top" id="uCu-Dj-O4d"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="dA0-BO-FJI"/>
+                    </view>
+                    <connections>
+                        <outlet property="scoreLabel" destination="fNq-Be-f2V" id="eun-IC-78B"/>
+                        <outletCollection property="stackGrid" destination="JTM-lu-ah4" collectionClass="NSMutableArray" id="h40-Io-2NJ"/>
+                        <outletCollection property="deal" destination="zKA-uG-55g" collectionClass="NSMutableArray" id="FDl-vv-S4S"/>
+                        <outletCollection property="Peak" destination="kp8-Fg-LH1" collectionClass="NSMutableArray" id="eG8-iG-dnX"/>
+                        <outletCollection property="newGame" destination="YBz-S8-HgT" collectionClass="NSMutableArray" id="CNF-Co-KFV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rZf-6c-uUs" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="36" y="5.8470764617691158"/>
+        </scene>
+    </scenes>
+</document>
