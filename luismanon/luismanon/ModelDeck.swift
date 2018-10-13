@@ -33,7 +33,7 @@ struct ModelDeck {
     //oh yes ! almost forgot we use ? because this function can either be nil or not
     mutating func dealCard() -> ModelCards? {
         if(!self.isDeckEmpty()){
-            let card =  self.deck.remove(at: 0)
+            let card =  deck.remove(at: 0)
             return card
         }
         return nil

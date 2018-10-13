@@ -19,32 +19,44 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="JTM-lu-ah4">
-                                <rect key="frame" x="31" y="20" width="312" height="513.5"/>
-                                <color key="tintColor" red="0.81797199407551935" green="1" blue="0.87722838500607603" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="16" y="20" width="343" height="499.5"/>
+                                <color key="tintColor" red="0.7560591099972237" green="0.92812790379469345" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Usi-mf-ptB">
-                                <rect key="frame" x="75" y="583" width="225" height="50.5"/>
+                                <rect key="frame" x="16" y="558" width="343" height="75.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score : 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fNq-Be-f2V">
-                                        <rect key="frame" x="0.0" y="0.0" width="225" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="31.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fyy-Ja-sBz">
-                                        <rect key="frame" x="0.0" y="20.5" width="225" height="30"/>
+                                        <rect key="frame" x="0.0" y="31.5" width="343" height="44"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YBz-S8-HgT">
-                                                <rect key="frame" x="0.0" y="0.0" width="75" height="30"/>
-                                                <state key="normal" title="New Game"/>
+                                                <rect key="frame" x="0.0" y="1.5" width="114.5" height="41"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                <state key="normal" title="Start"/>
+                                                <connections>
+                                                    <action selector="newGame:" destination="5KK-0o-l8c" eventType="touchUpInside" id="tJL-ad-2SH"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kp8-Fg-LH1">
-                                                <rect key="frame" x="75" y="0.0" width="75" height="30"/>
+                                                <rect key="frame" x="114.5" y="0.0" width="114" height="44"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                                 <state key="normal" title="Peak"/>
+                                                <connections>
+                                                    <action selector="peak:" destination="5KK-0o-l8c" eventType="touchUpInside" id="Pqd-d8-28r"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zKA-uG-55g">
-                                                <rect key="frame" x="150" y="0.0" width="75" height="30"/>
+                                                <rect key="frame" x="228.5" y="0.0" width="114.5" height="44"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                                 <state key="normal" title="Deal-3"/>
+                                                <connections>
+                                                    <action selector="dealCards:" destination="5KK-0o-l8c" eventType="touchUpInside" id="dU4-D3-nY4"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -53,19 +65,21 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Usi-mf-ptB" firstAttribute="leading" secondItem="dA0-BO-FJI" secondAttribute="leading" constant="75" id="Eie-3h-1j9"/>
-                            <constraint firstItem="dA0-BO-FJI" firstAttribute="trailing" secondItem="JTM-lu-ah4" secondAttribute="trailing" constant="32" id="Hdx-IM-4Xj"/>
-                            <constraint firstItem="JTM-lu-ah4" firstAttribute="leading" secondItem="dA0-BO-FJI" secondAttribute="leading" constant="31" id="Imc-hG-srC"/>
+                            <constraint firstItem="Usi-mf-ptB" firstAttribute="leading" secondItem="dA0-BO-FJI" secondAttribute="leading" constant="16" id="Eie-3h-1j9"/>
+                            <constraint firstItem="dA0-BO-FJI" firstAttribute="trailing" secondItem="JTM-lu-ah4" secondAttribute="trailing" constant="16" id="Hdx-IM-4Xj"/>
+                            <constraint firstItem="JTM-lu-ah4" firstAttribute="leading" secondItem="dA0-BO-FJI" secondAttribute="leading" constant="16" id="Imc-hG-srC"/>
                             <constraint firstItem="fyy-Ja-sBz" firstAttribute="top" secondItem="JTM-lu-ah4" secondAttribute="bottom" constant="70" id="LzT-FN-C4L"/>
+                            <constraint firstItem="dA0-BO-FJI" firstAttribute="bottom" secondItem="JTM-lu-ah4" secondAttribute="bottom" constant="147.5" id="Th3-MT-ArQ"/>
                             <constraint firstItem="dA0-BO-FJI" firstAttribute="bottom" secondItem="Usi-mf-ptB" secondAttribute="bottom" constant="33.5" id="Wpi-Ug-Gyl"/>
                             <constraint firstItem="Usi-mf-ptB" firstAttribute="centerX" secondItem="JTM-lu-ah4" secondAttribute="centerX" id="ij6-x3-g0L"/>
-                            <constraint firstItem="dA0-BO-FJI" firstAttribute="trailing" secondItem="Usi-mf-ptB" secondAttribute="trailing" constant="75" id="pxw-bn-UT5"/>
+                            <constraint firstItem="dA0-BO-FJI" firstAttribute="trailing" secondItem="Usi-mf-ptB" secondAttribute="trailing" constant="16" id="pxw-bn-UT5"/>
                             <constraint firstItem="JTM-lu-ah4" firstAttribute="top" secondItem="dA0-BO-FJI" secondAttribute="top" id="uCu-Dj-O4d"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="dA0-BO-FJI"/>
                     </view>
                     <connections>
                         <outlet property="scoreLabel" destination="fNq-Be-f2V" id="eun-IC-78B"/>
+                        <outlet property="stackGrid" destination="JTM-lu-ah4" id="jib-OI-5zd"/>
                         <outletCollection property="stackGrid" destination="JTM-lu-ah4" collectionClass="NSMutableArray" id="h40-Io-2NJ"/>
                         <outletCollection property="deal" destination="zKA-uG-55g" collectionClass="NSMutableArray" id="FDl-vv-S4S"/>
                         <outletCollection property="Peak" destination="kp8-Fg-LH1" collectionClass="NSMutableArray" id="eG8-iG-dnX"/>
