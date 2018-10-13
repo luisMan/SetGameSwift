@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  luismanon
 //
-//  Created by Fisicon on 10/11/18.
+//  Created by luis manon on 10/11/18.
 //  Copyright © 2018 student. All rights reserved.
 //
 
