@@ -21,7 +21,7 @@ class ModelCards{
         var shape:String
         
         switch(self.shape){
-        case .square: shape = "◼︎"
+        case .square: shape = "■"
         case .triangle: shape = "▲"
         case .circle: shape = "●"
         }
