@@ -14,6 +14,7 @@
 		3B658B0B2170103F00D66348 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B658B092170103F00D66348 /* LaunchScreen.storyboard */; };
 		3B658B162170103F00D66348 /* luismanonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B658B152170103F00D66348 /* luismanonTests.swift */; };
 		3B658B212170103F00D66348 /* luismanonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B658B202170103F00D66348 /* luismanonUITests.swift */; };
+		75172BDA21765097007E8104 /* GameFactorySingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75172BD921765097007E8104 /* GameFactorySingleton.swift */; };
 		756C684C2171AD4400BB83C1 /* ModelCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756C684B2171AD4400BB83C1 /* ModelCards.swift */; };
 		756C684E2171B2FD00BB83C1 /* ModelDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756C684D2171B2FD00BB83C1 /* ModelDeck.swift */; };
 		756C68502171B6FC00BB83C1 /* GameDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756C684F2171B6FC00BB83C1 /* GameDataModel.swift */; };
@@ -50,6 +51,7 @@
 		3B658B1C2170103F00D66348 /* luismanonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = luismanonUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B658B202170103F00D66348 /* luismanonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = luismanonUITests.swift; sourceTree = "<group>"; };
 		3B658B222170103F00D66348 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		75172BD921765097007E8104 /* GameFactorySingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameFactorySingleton.swift; sourceTree = "<group>"; };
 		756C684B2171AD4400BB83C1 /* ModelCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCards.swift; sourceTree = "<group>"; };
 		756C684D2171B2FD00BB83C1 /* ModelDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDeck.swift; sourceTree = "<group>"; };
 		756C684F2171B6FC00BB83C1 /* GameDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDataModel.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				756C684B2171AD4400BB83C1 /* ModelCards.swift */,
 				756C684D2171B2FD00BB83C1 /* ModelDeck.swift */,
 				756C684F2171B6FC00BB83C1 /* GameDataModel.swift */,
+				75172BD921765097007E8104 /* GameFactorySingleton.swift */,
 			);
 			path = luismanon;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 			files = (
 				3B658B032170103E00D66348 /* ViewController.swift in Sources */,
 				756C684C2171AD4400BB83C1 /* ModelCards.swift in Sources */,
+				75172BDA21765097007E8104 /* GameFactorySingleton.swift in Sources */,
 				756C68502171B6FC00BB83C1 /* GameDataModel.swift in Sources */,
 				756C684E2171B2FD00BB83C1 /* ModelDeck.swift in Sources */,
 				3B658B012170103E00D66348 /* AppDelegate.swift in Sources */,
@@ -443,7 +447,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DQTN5J7QU9;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = luismanon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -461,7 +465,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DQTN5J7QU9;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = luismanon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
