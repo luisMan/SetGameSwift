@@ -51,7 +51,7 @@ class ModelCards{
         switch(self.shaded){
         case .outlined: foregroundColor =  foregroundColor.withAlphaComponent(-0.5)
         case .filled: foregroundColor.withAlphaComponent(1.0)
-        case .stiped: foregroundColor.withAlphaComponent(0.4)
+        case .stiped: foregroundColor = foregroundColor.withAlphaComponent(0.3)
         }//close the shading attribute case statement
         
         let attributes: [NSAttributedStringKey: Any] = [
@@ -95,5 +95,6 @@ class ModelCards{
         self.shaded = shaded
         self.count = count
     }
+    
     
 }

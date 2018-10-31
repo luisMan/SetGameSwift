@@ -15,13 +15,23 @@ class ViewController: UIViewController {
     @IBOutlet  var deal: UIButton!
     @IBOutlet var viewButtons: [UIButton]!
     
+    //this is fun! just to have a nice touch
+    var colors = [UIColor.orange, UIColor.cyan, UIColor.yellow, UIColor.lightGray, UIColor.white]
+    public var peakSets =  [GameFactorySingleton]()
+    
     public var objectToFlush = [UIButton]()
     public var reArrangeButtons: Bool  = false
     
     //ingame boolean
     var inGame: Bool = false
     var timer: Timer!
-    var counterOnPeak: Int = 12
+    var peakTimer : Int = 0
+    var PeakMaxTime = 8
+    var starPickTimer: Bool = false
+    var counterOnPeak: Int = 0
+    //counter to keep track of user finding a set
+    var countBeforeFoundSet = 0
+
     var itemsRemovedOnArrangements: Int = 0
     
     var gameCollection = Dictionary<UIButton, ModelCards>()
@@ -53,6 +63,12 @@ class ViewController: UIViewController {
         
         scoreLabel.attributedText = attributedString
     }
+    
+    //animate UI Buttons
+    func animateButton( button: UIButton , color: UIColor){
+        button.backgroundColor = color
+    }
+    
   
     
     //this function is to initialize my game buttons dynamically
@@ -63,7 +79,7 @@ class ViewController: UIViewController {
         
          for index in 0..<initDecks {
             
-            if(!game.cardDeckObject().isDeckEmpty()){
+            if !game.cardDeckObject().isDeckEmpty() {
                 let cardObject =  card.dealCard()
                 viewButtons[index].isEnabled  = true;
                 viewButtons[index].isHidden = false;
@@ -71,8 +87,12 @@ class ViewController: UIViewController {
                 viewButtons[index].backgroundColor = UIColor.white
                 //insert this nice item to my dictionary
                 gameCollection.updateValue(cardObject!, forKey: viewButtons[index])
+                counterOnPeak = counterOnPeak + 1
             }
         }
+        
+        print("number of cards deal \(counterOnPeak) ")
+        game.computePossibleAlgorithms()
         
     }
     
@@ -85,20 +105,27 @@ class ViewController: UIViewController {
         return self.gameSetBasket
     }
     
-    //can deal more Cards
-    func canDealMoreCards() -> Bool {
-        if counterOnPeak < 24 {
-        return true
-        }
-        
-    return false
-    }
+
     
     @IBAction func toggle_buttons(_ sender: UIButton){
        //lets get the buttons from the hashable key and put it on a basket
         if(inGame){
-            sender.backgroundColor = UIColor.gray
-            gameSetBasket.updateValue(gameCollection[sender]!, forKey: sender)
+             sender.backgroundColor = UIColor.cyan
+        
+            if gameSetBasket[sender] != nil {
+                //deselect a basket
+                game.score = game.score - 100
+                for indexKey in gameSetBasket.keys {
+                    if indexKey == sender {
+                        gameSetBasket.removeValue(forKey: indexKey)
+                        indexKey.backgroundColor = UIColor.white
+                    }
+                }
+            }else{
+              gameSetBasket.updateValue(gameCollection[sender]!, forKey: sender)
+            }
+            
+            
            if(gameSetBasket.count == 3){
             //we have a full basket then lets call our gameDataModel object to check if there is a set
             game.ComputeSet()
@@ -124,10 +151,12 @@ class ViewController: UIViewController {
     //flush all the color of the grid to be default colors
     func flushColor()
     {
-        for  index in viewButtons.indices
+        for  index in 0..<counterOnPeak
         {
-            if !viewButtons[index].isHidden {
-            viewButtons[index].backgroundColor = UIColor.white
+            if !viewButtons[index].isEnabled {
+            viewButtons[index].backgroundColor = UIColor.lightGray
+            }else{
+                viewButtons[index].backgroundColor = UIColor.white
             }
         }
     }
@@ -137,37 +166,82 @@ class ViewController: UIViewController {
          inGame = true
         self.newGame.setTitle("InGame", for: .normal)
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-         initGameUiButtons(initDecks: 12);
     }
     //touch peak button function
-    @IBAction func peak(_ sender: UIButton){
-    
+      @IBAction func peak(_ sender: UIButton){
+       //lets do some magic
+        if inGame {
+        game.AppendANewHintAsSetToViewController()
+        }else{
+            let startGame = UIAlertController(title: "SetGame", message: "Please start Game to play!", preferredStyle: .alert)
+            let gameAction = UIAlertAction(title: "play", style: .destructive) { (alert: UIAlertAction!) -> Void in
+                self.inGame = !self.inGame
+                self.newGame.setTitle("InGame", for: .normal)
+                self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+                
+            }
+            startGame.addAction(gameAction)
+            present(startGame, animated: true, completion:nil)
+        }
     }
     
+
     
     //touch new gsmr button function
     @IBAction func dealCards(_ sender: UIButton){
         var counter = 0;
-        if inGame && canDealMoreCards() {
-            print("deal Card ")
-            var card = game.cardDeckObject()
-            for index in 0..<3{
-                if(!game.cardDeckObject().isDeckEmpty()){
-                    let num =  counterOnPeak + index
-                    let cardObject =  card.dealCard()
-                    viewButtons[num].isEnabled  = true;
-                    viewButtons[num].isHidden = false;
-                    viewButtons[num].setAttributedTitle(cardObject?.attributedContents(), for: UIControlState.normal)
-                    viewButtons[num].backgroundColor = UIColor.white
-                    //insert this nice item to my dictionary
-                    gameCollection.updateValue(cardObject!, forKey: viewButtons[num])
-                    
-                    //increment counter
-                    counter = counter + 1;
-                  }//close if empty
-            }
+        var card =  game.cardDeckObject()
+        if inGame {
+            for item in 0..<counterOnPeak {
             
+                    if !viewButtons[item].isEnabled {
+                    if  counter < 3{
+                        let cardObject =  card.dealCard()
+                        viewButtons[item].isEnabled  = true;
+                        viewButtons[item].isHidden = false;
+                        viewButtons[item].setAttributedTitle(cardObject?.attributedContents(), for: UIControlState.normal)
+                        viewButtons[item].backgroundColor = UIColor.white
+                        //insert this nice item to my dictionary
+                        gameCollection.updateValue(cardObject!, forKey: viewButtons[item])
+                        counter = counter + 1
+                    }
+                    
+                }
+            }
+            //lets fill the more cards
+            let difference = 2 - counter;
+            print("difference is now \(difference) ")
+            if(difference > 0 ){
+            for  index in 0...difference{
+                let pivot = (counterOnPeak) + index
+                if game.canDealMoreCards() &&  !viewButtons[pivot].isEnabled {
+                    let cardObject =  card.dealCard()
+                    viewButtons[pivot].isEnabled  = true;
+                    viewButtons[pivot].isHidden = false;
+                    viewButtons[pivot].setAttributedTitle(cardObject?.attributedContents(), for: UIControlState.normal)
+                    viewButtons[pivot].backgroundColor = UIColor.white
+                    //insert this nice item to my dictionary
+                    gameCollection.updateValue(cardObject!, forKey: viewButtons[pivot])
+                    counter = counter + 1
+                }
+            }
+            }//close if check
+            if game.canDealMoreCards() {
             counterOnPeak = counterOnPeak + counter;
+            }
+          
+            game.computePossibleAlgorithms()
+          
+        }else{
+            let startGame = UIAlertController(title: "SetGame", message: "Please start Game to play!", preferredStyle: .alert)
+            let gameAction = UIAlertAction(title: "play", style: .destructive) { (alert: UIAlertAction!) -> Void in
+                self.inGame = !self.inGame
+                self.newGame.setTitle("InGame", for: .normal)
+                self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+                
+            }
+            startGame.addAction(gameAction)
+            present(startGame, animated: true, completion:nil)
         }
     }
     
@@ -181,16 +255,24 @@ class ViewController: UIViewController {
     }
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.view.backgroundColor = UIColor.black
-        //disable buttons
-        disableButtons();
-        // Do any additional setup after loading the view, typically from a nib.
-        initGameUiButtons(initDecks: 12)
-       
+    func isThereAnyNotEnabledCardOnGrid() -> Bool {
+        for index in  0..<counterOnPeak {
+            if !viewButtons[index].isEnabled{
+                return true
+            }
+        }
+        return false
     }
+    
+    //lets diable deal 3 cards button base on logic if there is no more cards to deal
+    func disableThreeMoreCardsButtonIfNeeded() {
+        if !game.canDealMoreCards()
+            && (game.cardDeckObject().getTotalDeck() == 0)
+            && !isThereAnyNotEnabledCardOnGrid(){
+             deal.isHidden = true
+        }
+    }
+
     
     //disable a button
     func disableButton(sender: UIButton){
@@ -207,41 +289,29 @@ class ViewController: UIViewController {
        // }
     }
     
-    //because I love challenges and this is one of the task i will create rearrange the grid :-)
-    func reArrangeGridAndDisableButtons(buttons: [UIButton], pivot: Int, end: Int){
-        let mid =  counterOnPeak/2
-        if pivot <= mid && mid <= end{
-            if !buttons[pivot].isEnabled && buttons[end].isEnabled {
-                buttons[pivot].backgroundColor = UIColor.white
-                buttons[pivot].setAttributedTitle(gameCollection[buttons[end]]!.attributedContents(), for: UIControlState.normal)
-                    buttons[pivot].isEnabled = true
-                    //ADD THIS NEW VALUE FOR COLLETION
-               gameCollection.updateValue(gameCollection[buttons[end]]!, forKey: buttons[pivot])
-                //LETS REMOVE THIS END BUTTON FROM COLLECTION :-)
-                gameCollection.removeValue(forKey: buttons[end])
-                //now disable the end
-                disableButton(sender: buttons[end])
-                //update the item remove on Arrangements
-                self.itemsRemovedOnArrangements = itemsRemovedOnArrangements + 1
-                //recursive call
-               let p = pivot + 1
-               let e =  end - 1
-                reArrangeGridAndDisableButtons(buttons : buttons, pivot: p, end: e)
-            }else if buttons[pivot].isEnabled && buttons[end].isEnabled {
-                let p = pivot + 1
-                reArrangeGridAndDisableButtons(buttons : buttons, pivot: p, end: end)
-            }else if !buttons[pivot].isEnabled && !buttons[end].isEnabled {
-                let e = end - 1
-                reArrangeGridAndDisableButtons(buttons : buttons, pivot: pivot, end: e)
-            }
-       }//end of recursion lets update something to keep all smooth
-        
-        self.counterOnPeak = counterOnPeak - itemsRemovedOnArrangements
-        //now reset the itemsRemove for future use
-        itemsRemovedOnArrangements  = 0
-        
-    }
     
+    
+    //function color set and animate it
+    func ColorSetsAndAnimateItOnPeak(rand: Int)
+    {
+        let randomColor =  rand
+        let setFactory =  peakSets[0]
+        for dictionary in gameCollection.indices {
+            if gameCollection[dictionary].key.isEnabled {
+            let card =  gameCollection[dictionary].value
+            if setFactory.firstCard.attributedContents() == card.attributedContents() {
+                animateButton(button: gameCollection[dictionary].key, color: colors[randomColor])
+            }
+            if setFactory.secondCard.attributedContents() == card.attributedContents() {
+                animateButton(button: gameCollection[dictionary].key, color: colors[randomColor])
+            }
+            if setFactory.thirdCard.attributedContents() == card.attributedContents() {
+                animateButton(button: gameCollection[dictionary].key, color: colors[randomColor])
+            }
+            }//close if check 
+            
+        }//close for 
+    }
     
     //this is just an update function to do some great things
     @objc
@@ -249,11 +319,12 @@ class ViewController: UIViewController {
     {
         if inGame{
             game.gameTimer += 1;
+            countBeforeFoundSet = countBeforeFoundSet + 1
           
             //lets flush some colors out
             if(reArrangeButtons)
             {
-                reArrangeGridAndDisableButtons(buttons: viewButtons, pivot: 0 , end: counterOnPeak - 1)
+               // reArrangeGridAndDisableButtons(buttons: viewButtons, pivot: 0 , end: counterOnPeak - 1)
                 //objectToFlush.removeAll()
                 reArrangeButtons = false
             }
@@ -263,18 +334,67 @@ class ViewController: UIViewController {
                 for index in objectToFlush.indices {
                     disableButton(sender: objectToFlush[index])
                 }
-                
+                //flushcolor
+                flushColor()
                 objectToFlush.removeAll()
-                
+                //dinamycally find and compute more sets
+                  game.computePossibleAlgorithms()
                 //lets re arrange grid
                 reArrangeButtons = true
-                
             }
             
+            //the peak timer
+            if starPickTimer {
+                
+                if peakTimer < PeakMaxTime {
+                    if peakSets.count > 0 {
+                        let random  =  colors.count.arc4ramd
+                        ColorSetsAndAnimateItOnPeak(rand: random)
+                        }
+                }else{
+                    //go off
+                    if peakSets.count > 0 {
+                    let random  =  colors.count - 1
+                    ColorSetsAndAnimateItOnPeak(rand: random)
+                    }
+                    peakTimer = 0
+                    starPickTimer = false
+                }
+              peakTimer = peakTimer + 1
+            }
+        
+         //disable deal button if needed
+         updateAndStyleScore()
+         disableThreeMoreCardsButtonIfNeeded()
         }else{
             timer.invalidate()
         }
     }
     
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor.black
+        //disable buttons
+        disableButtons();
+        // Do any additional setup after loading the view, typically from a nib.
+        initGameUiButtons(initDecks: 12)
+        
+    }
+    
+
 }
 
+//compute a random index
+extension Int {
+    var arc4ramd: Int {
+        if(self > 0){
+            return Int(arc4random_uniform(UInt32(self)))
+        }else if( self < 0 ){
+            return Int(arc4random_uniform(UInt32(-self)))
+        }else{
+            return 0
+        }
+    }
+}

@@ -7,110 +7,115 @@
 //
 
 import Foundation
+import UIKit
 
 struct GameFactorySingleton : Hashable {
     private var identifier: Int
+    private var view: ViewController = ViewController()
+    
+    var shape = Set<String>()
+    var color = Set<String>()
+    var counter = Set<Int>()
+    var shaded = Set<String>()
+    
+   
     var hashValue: Int {
         return self.identifier
     }
-    var  firstCard, secondCard, thirdCard : ModelCards
-    
-    
+    public var  firstCard, secondCard, thirdCard : ModelCards
     //this is a hashable function to check whether two GameFactorySingleton set object are equal to each other
       static func == (lhs: GameFactorySingleton, rhs: GameFactorySingleton) -> Bool {
          return (lhs.hashValue==rhs.hashValue)
         }
     
-    
-     func isShapeLogicComplete() -> Bool {
-        if (firstCard.shape == secondCard.shape &&
-            firstCard.shape == thirdCard.shape &&
-            thirdCard.shape == secondCard.shape){
-            return true;
-        }else if (firstCard.shape != secondCard.shape &&
-            firstCard.shape != thirdCard.shape &&
-            thirdCard.shape != secondCard.shape) {
-            return true;
-        }else{
-            return false;
-        }
-    
+    //set the view controller after object initialization
+    mutating func setViewController(view: ViewController) {
+        self.view  =  view
     }
-    
-    func isColorLogicComplete() -> Bool {
+    //================================================Shape ========================
+    //get shape for first card
+    func getShapeStringForCard(obj: ModelCards) -> String {
+        switch obj.shape {
+        case .circle:
+            return "circle"
+        case .square:
+            return "square"
+        case .triangle:
+            return "triangle"
+        }
+    }
+  
+    //==========================================shaded===========================
+    //get shape for first card
+    func getShadeStringForCard(obj: ModelCards) -> String {
+        switch obj.shaded {
+        case .outlined:
+            return "outlined"
+        case .filled:
+            return "filled"
+        case .stiped:
+            return "stiped"
+        }
+    }
+
+    //============================================color logic =========================
+    func getColorStringForCard(obj: ModelCards) -> String {
+        switch obj.color {
+        case .red:
+            return "red"
+        case .green:
+            return "green"
+        case .purple:
+            return "purple"
+        }
+    }
+ 
+   
+    mutating func computeSetAlgorithmLogic() -> Bool{
+        //set the shaped
+        shape.insert(getShapeStringForCard(obj: firstCard))
+        shape.insert(getShapeStringForCard(obj: secondCard))
+        shape.insert(getShapeStringForCard(obj: thirdCard))
+        //color
+        color.insert(getColorStringForCard(obj: firstCard))
+        color.insert(getColorStringForCard(obj: secondCard))
+        color.insert(getColorStringForCard(obj: thirdCard))
+        //shade
+        print("cards shaded = f = \(firstCard.shaded)",
+          "\n s = \(secondCard.shaded)", "\n t = \(thirdCard.shaded)")
+        shaded.insert(getShadeStringForCard(obj: firstCard))
+        shaded.insert(getShadeStringForCard(obj: secondCard))
+        shaded.insert(getShadeStringForCard(obj: thirdCard))
+        //counter
+        counter.insert(firstCard.count)
+        counter.insert(secondCard.count)
+        counter.insert(thirdCard.count)
         
-        if (firstCard.color == secondCard.color &&
-            firstCard.color == thirdCard.color &&
-            thirdCard.color == secondCard.color){
-            return true;
-        }else if (firstCard.color != secondCard.color &&
-            firstCard.color != thirdCard.color &&
-            thirdCard.color != secondCard.color) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-    
-    func isShadinglogicComplete()-> Bool {
-        if (firstCard.shaded == secondCard.shaded &&
-            firstCard.shaded == thirdCard.shaded &&
-            thirdCard.shaded == secondCard.shaded){
-            return true;
-        }else if (firstCard.color != secondCard.color &&
-            firstCard.color != thirdCard.color &&
-            thirdCard.color != secondCard.color) {
-            return true;
-        }else{
-            return false;
+   // print (" the shade = \(shaded.count) ", "\n shaped = \(shape.count) ","\n color = \(color.count) ","\n counter = \(counter.count)")
+        if (shape.count == 3 || shape.count == 1)
+          && (color.count == 3 || color.count == 1)
+          && (shaded.count == 3 || shaded.count == 1)
+            && (counter.count == 3 || counter.count == 1) {
+            print("is a set found ")
+            return true
         }
         
+      return false
     }
     
     
-    func isCounterLogicComplete()-> Bool {
-         if (firstCard.count == secondCard.count &&
-            firstCard.count == thirdCard.count &&
-            thirdCard.count == secondCard.count){
-            return true;
-        }else if (firstCard.count != secondCard.count &&
-            firstCard.count != thirdCard.count &&
-            thirdCard.count != secondCard.count) {
-            return true;
-        }else{
-            return false;
-        }
-        
-    }
-    
-    
-    func isASet() -> Bool {
-        var counter = 0
+    mutating func isASet() -> Bool {
+  
         //magic begins lol for my algorithm
-        if  (isShapeLogicComplete()){
-           print("shape is equal or differents")
-            counter = counter + 1
+        if computeSetAlgorithmLogic() {
+            return true;
         }
-        if(isColorLogicComplete()) {
-            print("color  is equal or differents")
-            counter = counter + 1
-        }
-        if(isShadinglogicComplete()) {
-            print("shading is equal or differents")
-            counter = counter + 1
-        }
-        if(isCounterLogicComplete()){
-            print("counter is equal or differents")
-            counter = counter + 1
-        }
-        
-        print("the counter \(counter)")
-        if counter == 4 {
-          return true
-        }
+       
      
      return false
     }
+    
+
     
     private static var identifierFactory = 0
     
@@ -127,6 +132,8 @@ struct GameFactorySingleton : Hashable {
         self.thirdCard =  thirdCard
         identifier = GameFactorySingleton.getUniqueIdentifier()
     }
+    
+   
     
     
 }
