@@ -10,7 +10,8 @@ import UIKit
 
 @IBDesignable class SetCardView: UIView {
     var path = UIBezierPath()
-    
+    var cardToDraw: ModelCards!
+    var color : UIColor!
     //this is the number of cards am going to be draw in this case this may be the object counter of specific card shapes
     @IBInspectable var numberOfCard: Int =  12 {
         didSet {
@@ -41,6 +42,24 @@ import UIKit
             setNeedsLayout()
         }
     }
+    
+    
+    //set the card object
+     func setObjectCardToRender(card: ModelCards){
+        self.cardToDraw =  card
+        switch(cardToDraw.color)
+        {
+        case .green:
+            color = UIColor.green
+        case .red:
+            color = UIColor.red
+        case .purple:
+            color = UIColor.purple
+        }
+        
+    }
+    
+    
     
     //the frontView Scale of our card
     var faceCardScale: CGFloat = SizeRatio.faceCardImageSizeToBoundsSize {
@@ -78,6 +97,7 @@ import UIKit
         setNeedsDisplay()
         setNeedsLayout()
     }
+    
     
     
     
@@ -130,49 +150,94 @@ import UIKit
         }
     }
     //=====================================================================Draw a stiped diamond ===================================
-    private func drawFillDiamond()
+    private func drawFillDiamond() -> UIBezierPath
     {
+         let FillDiamond = UIBezierPath()
         //lets use our extension offsetBy wich is a CGPoint
-        path.move(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
-        path.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: self.frame.height/2))
-        path.addLine(to: bounds.origin.offsetBy(dx: self.frame.width-(self.frame.width/4), dy: self.frame.height/2))
-        path.move(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height - (self.frame.height/4)))
-        path.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: self.frame.height/2))
-        path.addLine(to: bounds.origin.offsetBy(dx: self.frame.width-(self.frame.width/4), dy: self.frame.height/2))
+        FillDiamond.move(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
+        FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: self.frame.height/2))
+        FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height - (self.frame.height/4)))
+        FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width-(self.frame.width/4), dy: self.frame.height/2))
+        FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
         
-        UIColor.orange.setFill()
-        path.fill()
+        FillDiamond.lineWidth = 3.0
+        color.setFill()
+        FillDiamond.fill()
         
-        // Specify a border (stroke) color.
-        //UIColor.purple.setStroke()
-        //path.stroke()
+   
         
-        path.close()
+        FillDiamond.close()
+        return FillDiamond
     }
     
     //====================================end of a fill diamond object==================================
     //=====================================================================Draw a empty diamond ===================================
-    private func drawEmptyDiamond()
+    private func drawEmptyDiamond() -> UIBezierPath
     {
+        let EmptyDiamong = UIBezierPath()
         //lets use our extension offsetBy wich is a CGPoint
-        path.move(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
-        path.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: self.frame.height/2))
-        //path.addLine(to: bounds.origin.offsetBy(dx: self.frame.width-(self.frame.width/4), dy: self.frame.height/2))
-        path.addLine(to: bounds.origin.offsetBy(dx: (self.frame.width/2), dy: self.frame.height/4))
-        path.move(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height - (self.frame.height/4)))
-        path.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: self.frame.height/2))
-        path.addLine(to: bounds.origin.offsetBy(dx: self.frame.width-(self.frame.width/4), dy: self.frame.height/2))
+        EmptyDiamong.move(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
+        EmptyDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: self.frame.height/2))
+        EmptyDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height - (self.frame.height/4)))
+        EmptyDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width-(self.frame.width/4), dy: self.frame.height/2))
+        EmptyDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
+      
+        EmptyDiamong.lineWidth = 3.0
         
         
         // Specify a border (stroke) color.
-        UIColor.purple.setStroke()
-        path.stroke()
+        color.setStroke()
+        EmptyDiamong.stroke()
         
-        path.close()
+        EmptyDiamong.close()
+        
+        return EmptyDiamong
     }
     
     //====================================end of a fill diamond object==================================
-    
+    //====================================Draw striped diamong ========================================
+    private func StipedDiamond() ->  UIBezierPath{
+        
+        let StipeDiamong = UIBezierPath()
+        StipeDiamong.addClip()
+        
+        StipeDiamong.move(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
+        StipeDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: self.frame.height/2))
+        StipeDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height - (self.frame.height/4)))
+        StipeDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width-(self.frame.width/4), dy: self.frame.height/2))
+        StipeDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
+        
+      
+        StipeDiamong.lineWidth = 3.0
+        color.setStroke()
+        StipeDiamong.stroke()
+        
+        StipeDiamong.close()
+        
+        return StipeDiamong
+        
+    }
+    //=====================================================end of Stiped Diamong shape frame ==============================================//
+    func addLineToFrame(path: UIBezierPath) -> UIBezierPath
+    {
+        let lines = UIBezierPath()
+        lines.append(path);
+        
+        lines.addClip()
+        var height =  self.frame.height/4
+        
+        for _ in 0...15 {
+            lines.move(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: height))
+            lines.addLine(to: bounds.origin.offsetBy(dx: self.frame.width - (self.frame.width/4), dy: height))
+            height =  height + 20.0;
+        }
+        
+        lines.lineWidth = 3.0
+        color.setStroke()
+        lines.stroke()
+        
+        return lines;
+    }
     
     //now lets draw into this nice function lol
     //please note the draw function is not a thread it only knows how to draw not animate lol
@@ -185,7 +250,7 @@ import UIKit
         let roundedRect =  UIBezierPath(roundedRect: bounds, cornerRadius:cornerRadius)
         
         //this function clip just the same way a focus point clip to draw on a 3D space base on camera view point
-        roundedRect.addClip()
+       // roundedRect.addClip()
         //lets set the color to fill this rectangle with
         UIColor.white.setFill()
         
@@ -194,8 +259,38 @@ import UIKit
         
         //lets check if is not deleted from view
         if isFaceUp {
-            //drawFillDiamond();
-            drawEmptyDiamond();
+            switch(cardToDraw.shape){
+            case .circle:
+                      switch(cardToDraw.shaded)
+                      {
+                      case .filled:
+                           path.append(drawFillDiamond())
+                      case .stiped:
+                        path.append(addLineToFrame(path: StipedDiamond()))
+                      case .outlined:
+                        path.append(drawEmptyDiamond())
+                       }
+            case .square:
+                switch(cardToDraw.shaded)
+                {
+                case .filled:
+                    path.append(drawFillDiamond())
+                case .stiped:
+                    path.append(addLineToFrame(path: StipedDiamond()))
+                case .outlined:
+                    path.append(drawEmptyDiamond())
+                }
+            case .triangle:
+                switch(cardToDraw.shaded)
+                {
+                case .filled:
+                    path.append(drawFillDiamond())
+                case .stiped:
+                    path.append(addLineToFrame(path: StipedDiamond()))
+                case .outlined:
+                    path.append(drawEmptyDiamond())
+                }
+            }
         }
         
     }

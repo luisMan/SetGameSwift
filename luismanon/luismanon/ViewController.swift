@@ -374,7 +374,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("Hello this function has this many subviews ")
         self.view.backgroundColor = UIColor.black
         //disable buttons
         //disableButtons();
