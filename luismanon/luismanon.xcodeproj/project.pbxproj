@@ -15,6 +15,7 @@
 		3B658B162170103F00D66348 /* luismanonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B658B152170103F00D66348 /* luismanonTests.swift */; };
 		3B658B212170103F00D66348 /* luismanonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B658B202170103F00D66348 /* luismanonUITests.swift */; };
 		75172BDA21765097007E8104 /* GameFactorySingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75172BD921765097007E8104 /* GameFactorySingleton.swift */; };
+		75172BDC218A6009007E8104 /* SetCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75172BDB218A6009007E8104 /* SetCardView.swift */; };
 		756C684C2171AD4400BB83C1 /* ModelCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756C684B2171AD4400BB83C1 /* ModelCards.swift */; };
 		756C684E2171B2FD00BB83C1 /* ModelDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756C684D2171B2FD00BB83C1 /* ModelDeck.swift */; };
 		756C68502171B6FC00BB83C1 /* GameDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756C684F2171B6FC00BB83C1 /* GameDataModel.swift */; };
@@ -52,6 +53,7 @@
 		3B658B202170103F00D66348 /* luismanonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = luismanonUITests.swift; sourceTree = "<group>"; };
 		3B658B222170103F00D66348 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75172BD921765097007E8104 /* GameFactorySingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameFactorySingleton.swift; sourceTree = "<group>"; };
+		75172BDB218A6009007E8104 /* SetCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCardView.swift; sourceTree = "<group>"; };
 		756C684B2171AD4400BB83C1 /* ModelCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCards.swift; sourceTree = "<group>"; };
 		756C684D2171B2FD00BB83C1 /* ModelDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDeck.swift; sourceTree = "<group>"; };
 		756C684F2171B6FC00BB83C1 /* GameDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDataModel.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				756C684D2171B2FD00BB83C1 /* ModelDeck.swift */,
 				756C684F2171B6FC00BB83C1 /* GameDataModel.swift */,
 				75172BD921765097007E8104 /* GameFactorySingleton.swift */,
+				75172BDB218A6009007E8104 /* SetCardView.swift */,
 			);
 			path = luismanon;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 			files = (
 				3B658B032170103E00D66348 /* ViewController.swift in Sources */,
 				756C684C2171AD4400BB83C1 /* ModelCards.swift in Sources */,
+				75172BDC218A6009007E8104 /* SetCardView.swift in Sources */,
 				75172BDA21765097007E8104 /* GameFactorySingleton.swift in Sources */,
 				756C68502171B6FC00BB83C1 /* GameDataModel.swift in Sources */,
 				756C684E2171B2FD00BB83C1 /* ModelDeck.swift in Sources */,

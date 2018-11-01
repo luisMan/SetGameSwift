@@ -377,9 +377,9 @@ class ViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.black
         //disable buttons
-        disableButtons();
+        //disableButtons();
         // Do any additional setup after loading the view, typically from a nib.
-        initGameUiButtons(initDecks: 12)
+        //initGameUiButtons(initDecks: 12)
         
     }
     
