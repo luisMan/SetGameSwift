@@ -159,12 +159,12 @@ struct GameDataModel {
     //get shape for first card
     func getShapeStringForCard(obj: ModelCards) -> String {
         switch obj.shape {
-        case .circle:
-            return "circle"
-        case .square:
-            return "square"
-        case .triangle:
-            return "triangle"
+        case .oval:
+            return "oval"
+        case .diamond:
+            return "diamond"
+        case .custom:
+            return "custom"
         }
     }
     

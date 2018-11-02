@@ -224,19 +224,210 @@ import UIKit
         lines.append(path);
         
         lines.addClip()
-        var height =  self.frame.height/4
+        var height =  self.frame.height/6
         
-        for _ in 0...15 {
+        for _ in 0...30 {
             lines.move(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: height))
             lines.addLine(to: bounds.origin.offsetBy(dx: self.frame.width - (self.frame.width/4), dy: height))
             height =  height + 20.0;
         }
         
         lines.lineWidth = 3.0
-        color.setStroke()
+        //color.setStroke()
+        UIColor.blue.setStroke()
         lines.stroke()
         
         return lines;
+    }
+    //================================================function to draw  a Oval ===============
+    func drawFillOval() -> UIBezierPath{
+        let ovar =  UIBezierPath()
+        //left angle
+        var leftAngleOnarc =  CGFloat(180.0) * CGFloat.pi
+        leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
+        
+        //right angle
+        var rightAngleOnArc = CGFloat(0.0) * CGFloat.pi
+        rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
+        
+        
+        
+        print(" left on radian = \(leftAngleOnarc) and right on radian  = \(rightAngleOnArc) ")
+        ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4),
+                    radius: self.frame.width/4,
+                    startAngle: leftAngleOnarc,
+                    endAngle: rightAngleOnArc,
+                    clockwise: true)
+        ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height-self.frame.height/4),
+                    radius: self.frame.width/4,
+                    startAngle: rightAngleOnArc,
+                    endAngle: leftAngleOnarc,
+                    clockwise: true)
+        ovar.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2-(self.frame.width/4), dy: self.frame.height/4))
+        
+       color.setFill()
+       ovar.fill()
+    
+        ovar.close()
+     return ovar
+    }
+    //=====================================================end of draw fill oval=====================
+    //=====================================================begind of empty oval ======================
+    func drawEmptyOval() -> UIBezierPath{
+        let ovar =  UIBezierPath()
+        //left angle
+        var leftAngleOnarc =  CGFloat(180.0) * CGFloat.pi
+        leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
+        
+        //right angle
+        var rightAngleOnArc = CGFloat(0.0) * CGFloat.pi
+        rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
+        
+        
+        
+        print(" left on radian = \(leftAngleOnarc) and right on radian  = \(rightAngleOnArc) ")
+        ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4),
+                    radius: self.frame.width/4,
+                    startAngle: leftAngleOnarc,
+                    endAngle: rightAngleOnArc,
+                    clockwise: true)
+        ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height-self.frame.height/4),
+                    radius: self.frame.width/4,
+                    startAngle: rightAngleOnArc,
+                    endAngle: leftAngleOnarc,
+                    clockwise: true)
+        ovar.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2-(self.frame.width/4), dy: self.frame.height/4))
+        
+        color.setStroke()
+        ovar.stroke()
+        
+        ovar.close()
+        return ovar;
+    }
+    //====================================================begin of stiped oval -=================================
+    func drawStipedOval() -> UIBezierPath{
+        let ovar =  UIBezierPath()
+        ovar.addClip()
+        //left angle
+        var leftAngleOnarc =  CGFloat(180.0) * CGFloat.pi
+        leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
+        
+        //right angle
+        var rightAngleOnArc = CGFloat(0.0) * CGFloat.pi
+        rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
+        
+        
+        
+        print(" left on radian = \(leftAngleOnarc) and right on radian  = \(rightAngleOnArc) ")
+        ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4),
+                    radius: self.frame.width/4,
+                    startAngle: leftAngleOnarc,
+                    endAngle: rightAngleOnArc,
+                    clockwise: true)
+        ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height-self.frame.height/4),
+                    radius: self.frame.width/4,
+                    startAngle: rightAngleOnArc,
+                    endAngle: leftAngleOnarc,
+                    clockwise: true)
+        ovar.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2-(self.frame.width/4), dy: self.frame.height/4))
+        
+        UIColor.red.setStroke()
+        ovar.stroke()
+        
+        ovar.close()
+        return ovar;
+    }
+    //============================================END OF STIPED OVAL= ==============================================
+    //============================================BEGIN OF WEIRD SHAPE =============================================
+    func drawCurveFillShape() -> UIBezierPath
+    {
+        let curve  = UIBezierPath()
+        
+        var leftAngleOnarc =  CGFloat(0) * CGFloat.pi
+        leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
+        
+        //right angle
+        var rightAngleOnArc = CGFloat(130) * CGFloat.pi
+        rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
+        
+        //top arc
+        let starc = CGFloat(40) * CGFloat.pi / CGFloat(180.0)
+        let etarc = CGFloat(145) * CGFloat.pi / CGFloat(180.0)
+        
+        curve.move(to: bounds.origin.offsetBy(dx: self.frame.width - self.frame.width/3, dy: self.frame.height/5))
+        curve.addCurve(to: bounds.origin.offsetBy(dx: self.frame.width-self.frame.width/4, dy: self.frame.height - self.frame.height/4), controlPoint1: bounds.origin.offsetBy(dx: self.frame.width, dy: self.frame.height/6),
+                       controlPoint2: bounds.origin.offsetBy(dx: self.frame.width/2 - self.frame.width/4, dy: self.frame.height - self.frame.height/4))
+        curve.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height-self.frame.height/4), radius: self.frame.width/4, startAngle: leftAngleOnarc, endAngle: rightAngleOnArc, clockwise: true)
+        curve.addCurve(to: bounds.origin.offsetBy(dx: self.frame.width/2 - self.frame.width/6, dy: self.frame.height/2 - self.frame.height/6), controlPoint1: bounds.origin.offsetBy(dx: 0, dy: self.frame.height - self.frame.height/3),
+                       controlPoint2: bounds.origin.offsetBy(dx: self.frame.width - self.frame.width/4, dy: self.frame.height/3))
+        
+       curve.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4), radius: self.frame.width/4, startAngle: etarc, endAngle: starc, clockwise: true)
+        
+        color.setFill()
+        curve.fill()
+
+        curve.close()
+     return curve
+    }
+    //=======================================================draw empty shape =================================
+    func drawCurveEmptyShape() -> UIBezierPath
+    {
+        let curve  = UIBezierPath()
+        curve.addClip()
+        var leftAngleOnarc =  CGFloat(0) * CGFloat.pi
+        leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
+        
+        //right angle
+        var rightAngleOnArc = CGFloat(130) * CGFloat.pi
+        rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
+        
+        //top arc
+        let starc = CGFloat(0) * CGFloat.pi / CGFloat(180.0)
+        let etarc = CGFloat(145) * CGFloat.pi / CGFloat(180.0)
+        
+        curve.move(to: bounds.origin.offsetBy(dx: self.frame.width - (self.frame.width/3) - CGFloat(0.7), dy: self.frame.height/5))
+        curve.addCurve(to: bounds.origin.offsetBy(dx: self.frame.width-self.frame.width/4, dy: self.frame.height - self.frame.height/4), controlPoint1: bounds.origin.offsetBy(dx: self.frame.width, dy: self.frame.height/6),
+                       controlPoint2: bounds.origin.offsetBy(dx: self.frame.width/2 - self.frame.width/4, dy: self.frame.height - self.frame.height/4))
+        curve.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height-self.frame.height/4), radius: self.frame.width/4, startAngle: leftAngleOnarc, endAngle: rightAngleOnArc, clockwise: true)
+        curve.addCurve(to: bounds.origin.offsetBy(dx: self.frame.width/2 - self.frame.width/6, dy: self.frame.height/2 - self.frame.height/6), controlPoint1: bounds.origin.offsetBy(dx: 0, dy: self.frame.height - self.frame.height/3),
+                       controlPoint2: bounds.origin.offsetBy(dx: self.frame.width - self.frame.width/4, dy: self.frame.height/3))
+        
+        curve.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4), radius: self.frame.width/4, startAngle: etarc, endAngle: starc, clockwise: true)
+        
+        color.setStroke()
+        curve.stroke()
+        curve.close()
+        return curve
+    }
+    
+    //======================================================draw stiped path for Custom curve shape =============================
+    func drawCurveStipedShape() -> UIBezierPath {
+    let curve  = UIBezierPath()
+    
+    var leftAngleOnarc =  CGFloat(0) * CGFloat.pi
+    leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
+    
+    //right angle
+    var rightAngleOnArc = CGFloat(130) * CGFloat.pi
+    rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
+    
+    //top arc
+    let starc = CGFloat(0) * CGFloat.pi / CGFloat(180.0)
+    let etarc = CGFloat(145) * CGFloat.pi / CGFloat(180.0)
+    
+    curve.move(to: bounds.origin.offsetBy(dx: self.frame.width - (self.frame.width/3) - CGFloat(0.7), dy: self.frame.height/5))
+    curve.addCurve(to: bounds.origin.offsetBy(dx: self.frame.width-self.frame.width/4, dy: self.frame.height - self.frame.height/4), controlPoint1: bounds.origin.offsetBy(dx: self.frame.width, dy: self.frame.height/6),
+    controlPoint2: bounds.origin.offsetBy(dx: self.frame.width/2 - self.frame.width/4, dy: self.frame.height - self.frame.height/4))
+    curve.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height-self.frame.height/4), radius: self.frame.width/4, startAngle: leftAngleOnarc, endAngle: rightAngleOnArc, clockwise: true)
+    curve.addCurve(to: bounds.origin.offsetBy(dx: self.frame.width/2 - self.frame.width/6, dy: self.frame.height/2 - self.frame.height/6), controlPoint1: bounds.origin.offsetBy(dx: 0, dy: self.frame.height - self.frame.height/3),
+    controlPoint2: bounds.origin.offsetBy(dx: self.frame.width - self.frame.width/4, dy: self.frame.height/3))
+    
+    curve.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4), radius: self.frame.width/4, startAngle: etarc, endAngle: starc, clockwise: true)
+    
+    color.setStroke()
+    curve.stroke()
+    curve.close()
+        return curve
     }
     
     //now lets draw into this nice function lol
@@ -260,7 +451,7 @@ import UIKit
         //lets check if is not deleted from view
         if isFaceUp {
             switch(cardToDraw.shape){
-            case .circle:
+            case .diamond:
                       switch(cardToDraw.shaded)
                       {
                       case .filled:
@@ -270,25 +461,25 @@ import UIKit
                       case .outlined:
                         path.append(drawEmptyDiamond())
                        }
-            case .square:
+            case .oval:
                 switch(cardToDraw.shaded)
                 {
                 case .filled:
-                    path.append(drawFillDiamond())
+                    path.append(drawFillOval())
                 case .stiped:
-                    path.append(addLineToFrame(path: StipedDiamond()))
+                    path.append(addLineToFrame(path: drawStipedOval()))
                 case .outlined:
-                    path.append(drawEmptyDiamond())
+                    path.append(drawEmptyOval())
                 }
-            case .triangle:
+            case .custom:
                 switch(cardToDraw.shaded)
                 {
                 case .filled:
-                    path.append(drawFillDiamond())
+                    path.append(drawCurveFillShape())
                 case .stiped:
-                    path.append(addLineToFrame(path: StipedDiamond()))
+                    path.append(addLineToFrame(path:drawCurveStipedShape()))
                 case .outlined:
-                    path.append(drawEmptyDiamond())
+                    path.append(drawCurveEmptyShape())
                 }
             }
         }

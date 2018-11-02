@@ -21,9 +21,9 @@ class ModelCards{
         var shape:String
         
         switch(self.shape){
-        case .square: shape = "■"
-        case .triangle: shape = "▲"
-        case .circle: shape = "●"
+        case .custom: shape = "#"
+        case .diamond: shape = "▲"
+        case .oval: shape = "●"
         }
         
         for _ in 1...self.count {
@@ -82,10 +82,10 @@ class ModelCards{
     }
     
     enum Shapes{
-    case square
-    case triangle
-    case circle
-    static let all = [square,triangle,circle]
+    case oval
+    case diamond
+    case custom
+    static let all = [oval,diamond,custom]
     }
 
     init(shape: Shapes, color: Colors, shaded: Shades, count: Int)
