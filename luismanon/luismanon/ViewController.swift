@@ -13,14 +13,18 @@ class ViewController: UIViewController {
     @IBOutlet  var newGame: UIButton!
     @IBOutlet  var Peak: [UIButton]!
     @IBOutlet  var deal: UIButton!
-    @IBOutlet var viewButtons: [UIButton]!
-    
+  
+
+    @IBOutlet weak var MainGameView: MainViewGame!
     //this is fun! just to have a nice touch
     var colors = [UIColor.orange, UIColor.cyan, UIColor.yellow, UIColor.lightGray, UIColor.white]
     public var peakSets =  [GameFactorySingleton]()
     
-    public var objectToFlush = [UIButton]()
+    public var objectToFlush = [SetCardView]()
     public var reArrangeButtons: Bool  = false
+    
+    //the array to holes all the card view on this grid
+    public var viewButtons = [SetCardView]()
     
     //ingame boolean
     var inGame: Bool = false
@@ -34,12 +38,14 @@ class ViewController: UIViewController {
 
     var itemsRemovedOnArrangements: Int = 0
     
-    var gameCollection = Dictionary<UIButton, ModelCards>()
+    var gameCollection = Dictionary<SetCardView, ModelCards>()
     
-    var gameSetBasket  = Dictionary<UIButton, ModelCards>()
+    var gameSetBasket  = Dictionary<SetCardView, ModelCards>()
     
     //pointer variable for our game data model :-)
     private lazy var game =  GameDataModel(type: self)
+    //global game car pointer
+    private var card: ModelDeck!
     
     
     //lets declare the score label
@@ -65,7 +71,7 @@ class ViewController: UIViewController {
     }
     
     //animate UI Buttons
-    func animateButton( button: UIButton , color: UIColor){
+    func animateButton( button: SetCardView, color: UIColor){
         button.backgroundColor = color
     }
     
@@ -75,39 +81,39 @@ class ViewController: UIViewController {
     func initGameUiButtons(initDecks: Int)
     {
         gameCollection.removeAll()
-        var card = game.cardDeckObject()
         
-         for index in 0..<initDecks {
+         for _ in 0..<initDecks {
             
             if !game.cardDeckObject().isDeckEmpty() {
-                let cardObject =  card.dealCard()
-                viewButtons[index].isEnabled  = true;
-                viewButtons[index].isHidden = false;
-                viewButtons[index].setAttributedTitle(cardObject?.attributedContents(), for: UIControlState.normal)
-                viewButtons[index].backgroundColor = UIColor.white
-                //insert this nice item to my dictionary
-                gameCollection.updateValue(cardObject!, forKey: viewButtons[index])
+                let one = card.dealCard()
+                let newCard = SetCardView()
+                newCard.isHidden = false
+                newCard.setIsEnabled(v: true)
+                newCard.setObjectCardToRender(card: one!)
+                self.MainGameView.addSubview(newCard)
+                viewButtons.append(newCard)
+                gameCollection.updateValue(one!, forKey: newCard)
                 counterOnPeak = counterOnPeak + 1
             }
         }
         
-        print("number of cards deal \(counterOnPeak) ")
+        //print("number of cards deal \(counterOnPeak) ")
         game.computePossibleAlgorithms()
         
     }
     
     //function return my own visible game collection for all cards
-    func getGameCollectionUI() -> Dictionary<UIButton, ModelCards> {
+    func getGameCollectionUI() -> Dictionary<SetCardView, ModelCards> {
     return self.gameCollection
     }
     //get the game object basket
-    func getGameSetBasket() -> Dictionary<UIButton, ModelCards> {
+    func getGameSetBasket() -> Dictionary<SetCardView, ModelCards> {
         return self.gameSetBasket
     }
     
 
     
-    @IBAction func toggle_buttons(_ sender: UIButton){
+   /* @IBAction func toggle_buttons(_ sender: UIButton){
        //lets get the buttons from the hashable key and put it on a basket
         if(inGame){
              sender.backgroundColor = UIColor.cyan
@@ -146,15 +152,16 @@ class ViewController: UIViewController {
         }
         
         
-    }
+    }*/
     
     //flush all the color of the grid to be default colors
     func flushColor()
     {
         for  index in 0..<counterOnPeak
         {
-            if !viewButtons[index].isEnabled {
-            viewButtons[index].backgroundColor = UIColor.lightGray
+          
+            if !viewButtons[index].enabled {
+             viewButtons[index].backgroundColor = UIColor.lightGray
             }else{
                 viewButtons[index].backgroundColor = UIColor.white
             }
@@ -190,16 +197,15 @@ class ViewController: UIViewController {
     //touch new gsmr button function
     @IBAction func dealCards(_ sender: UIButton){
         var counter = 0;
-        var card =  game.cardDeckObject()
         if inGame {
             for item in 0..<counterOnPeak {
             
-                    if !viewButtons[item].isEnabled {
+                    if !viewButtons[item].enabled {
                     if  counter < 3{
                         let cardObject =  card.dealCard()
-                        viewButtons[item].isEnabled  = true;
+                        viewButtons[item].enabled  = true;
                         viewButtons[item].isHidden = false;
-                        viewButtons[item].setAttributedTitle(cardObject?.attributedContents(), for: UIControlState.normal)
+                        viewButtons[item].setObjectCardToRender(card: cardObject!)
                         viewButtons[item].backgroundColor = UIColor.white
                         //insert this nice item to my dictionary
                         gameCollection.updateValue(cardObject!, forKey: viewButtons[item])
@@ -214,14 +220,16 @@ class ViewController: UIViewController {
             if(difference > 0 ){
             for  index in 0...difference{
                 let pivot = (counterOnPeak) + index
-                if game.canDealMoreCards() &&  !viewButtons[pivot].isEnabled {
-                    let cardObject =  card.dealCard()
-                    viewButtons[pivot].isEnabled  = true;
-                    viewButtons[pivot].isHidden = false;
-                    viewButtons[pivot].setAttributedTitle(cardObject?.attributedContents(), for: UIControlState.normal)
-                    viewButtons[pivot].backgroundColor = UIColor.white
-                    //insert this nice item to my dictionary
-                    gameCollection.updateValue(cardObject!, forKey: viewButtons[pivot])
+                if game.canDealMoreCards() {
+                    let one = card.dealCard()
+                    let newCard = SetCardView()
+                    newCard.isHidden = false
+                    newCard.setIsEnabled(v: true)
+                    newCard.setObjectCardToRender(card: one!)
+                    self.MainGameView.addSubview(newCard)
+                    viewButtons.append(newCard)
+                    gameCollection.updateValue(one!, forKey: viewButtons[pivot])
+                
                     counter = counter + 1
                 }
             }
@@ -248,16 +256,16 @@ class ViewController: UIViewController {
     //lets disable our buttons
     func disableButtons()
     {
-        for index in viewButtons.indices {
+       for index in viewButtons.indices {
             viewButtons[index].isHidden = true;
-            viewButtons[index].isEnabled = false;
+            viewButtons[index].enabled = false;
         }
     }
     
     
     func isThereAnyNotEnabledCardOnGrid() -> Bool {
-        for index in  0..<counterOnPeak {
-            if !viewButtons[index].isEnabled{
+       for index in  0..<counterOnPeak {
+            if !viewButtons[index].enabled{
                 return true
             }
         }
@@ -275,18 +283,11 @@ class ViewController: UIViewController {
 
     
     //disable a button
-    func disableButton(sender: UIButton){
-      //  for index in objectToFlush.indices {
-            let attributes: [NSAttributedStringKey: Any] = [
-                .strokeColor: UIColor.black,
-                .foregroundColor: UIColor.red.withAlphaComponent(0.0),
-                .strokeWidth: -5.0
-            ]//close of attibutes
-            let attributedString = NSAttributedString(string:" ",attributes: attributes)
-            sender.setAttributedTitle(attributedString,for: UIControlState.normal)
-            sender.backgroundColor = UIColor.black.withAlphaComponent(0.0)
-            sender.isEnabled = false
-       // }
+    func disableButton(sender: SetCardView){
+     
+            sender.enabled = false
+            sender.backgroundColor = UIColor.gray
+      
     }
     
     
@@ -297,15 +298,15 @@ class ViewController: UIViewController {
         let randomColor =  rand
         let setFactory =  peakSets[0]
         for dictionary in gameCollection.indices {
-            if gameCollection[dictionary].key.isEnabled {
-            let card =  gameCollection[dictionary].value
-            if setFactory.firstCard.attributedContents() == card.attributedContents() {
+            if gameCollection[dictionary].key.enabled {
+            let cardT =  gameCollection[dictionary].value
+            if setFactory.firstCard.attributedContents() == cardT.attributedContents() {
                 animateButton(button: gameCollection[dictionary].key, color: colors[randomColor])
             }
-            if setFactory.secondCard.attributedContents() == card.attributedContents() {
+            if setFactory.secondCard.attributedContents() == cardT.attributedContents() {
                 animateButton(button: gameCollection[dictionary].key, color: colors[randomColor])
             }
-            if setFactory.thirdCard.attributedContents() == card.attributedContents() {
+            if setFactory.thirdCard.attributedContents() == cardT.attributedContents() {
                 animateButton(button: gameCollection[dictionary].key, color: colors[randomColor])
             }
             }//close if check 
@@ -376,10 +377,17 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         print("Hello this function has this many subviews ")
         self.view.backgroundColor = UIColor.black
+        //set the deck to the cards
+        card =  game.cardDeckObject()
+        print("The number of subview inside the main view is \(MainGameView.subviews.count)")
+
+        //self.mainCardView.setObjectCardToRender(card: one!)
+        
+        
         //disable buttons
-        //disableButtons();
+        disableButtons();
         // Do any additional setup after loading the view, typically from a nib.
-        //initGameUiButtons(initDecks: 12)
+        initGameUiButtons(initDecks: 12)
         
     }
     

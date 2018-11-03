@@ -60,7 +60,7 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="19n-ps-d4e" customClass="SetCardView" customModule="luismanon">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="19n-ps-d4e" customClass="MainViewGame" customModule="luismanon" customModuleProvider="target">
                                 <rect key="frame" x="16" y="20" width="343" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -79,6 +79,7 @@
                         <viewLayoutGuide key="safeArea" id="dA0-BO-FJI"/>
                     </view>
                     <connections>
+                        <outlet property="MainGameView" destination="19n-ps-d4e" id="vWV-cF-0pk"/>
                         <outlet property="deal" destination="zKA-uG-55g" id="R2p-Wx-G8h"/>
                         <outlet property="newGame" destination="YBz-S8-HgT" id="qjv-W7-Xzc"/>
                         <outlet property="scoreLabel" destination="fNq-Be-f2V" id="eun-IC-78B"/>

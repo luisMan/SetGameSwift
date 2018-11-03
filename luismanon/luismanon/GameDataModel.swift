@@ -22,7 +22,7 @@ struct GameDataModel {
     private var logicSetsFactory = Set<GameFactorySingleton>()
     
     //tree collection of key and childrens well a close aproach to that of A* algorithm
-    private var tree = Dictionary<UIButton, [UIButton]>()
+    private var tree = Dictionary<SetCardView, [SetCardView]>()
     
 
     private var pivot = 11;
@@ -222,17 +222,17 @@ struct GameDataModel {
     
     
     //check if parent node exist on our tree
-    func isParentNodeAdded(parent: UIButton) -> Bool {
+    func isParentNodeAdded(parent: SetCardView) -> Bool {
         //check the node on parent
         for key in tree.keys {
          
-            if parent.attributedTitle(for: UIControlState.normal) == key.attributedTitle(for: UIControlState.normal) {
+            if parent == key {
                 return true
             }
             //check the node on the child object lol
             if(tree[key]!.count > 0 ){
             for child in tree[key]! {
-                if parent.attributedTitle(for: UIControlState.normal) == child.attributedTitle(for: UIControlState.normal) {
+                if parent == child {
                     return true
                 }//close if
             }//close inner for
@@ -252,13 +252,13 @@ struct GameDataModel {
         //start the logic
         for index  in  0..<view.counterOnPeak {
             //this is a button and is our tree key
-            if view.viewButtons[index].isEnabled {
+           if view.viewButtons[index].enabled {
             let parentKey =  view.viewButtons[index]
-            var childrenButtons = [UIButton]()
+            var childrenButtons = [SetCardView]()
         
             for colums  in 0..<view.counterOnPeak {
                 //avoid checking same key parent
-                if view.viewButtons[colums].isEnabled {
+                if view.viewButtons[colums].enabled {
                 if index !=  colums {
                     PvCShaded.removeAll()
                     PvCCounter.removeAll()
@@ -278,7 +278,7 @@ struct GameDataModel {
             if !isParentNodeAdded(parent: parentKey) {
             tree.updateValue(childrenButtons, forKey: parentKey)
             }
-            }//close is enabled
+            }//close is enabled*/
         }
         
         

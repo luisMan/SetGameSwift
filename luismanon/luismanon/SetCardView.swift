@@ -12,6 +12,8 @@ import UIKit
     var path = UIBezierPath()
     var cardToDraw: ModelCards!
     var color : UIColor!
+    var enabled: Bool = true
+   
     //this is the number of cards am going to be draw in this case this may be the object counter of specific card shapes
     @IBInspectable var numberOfCard: Int =  12 {
         didSet {
@@ -47,6 +49,7 @@ import UIKit
     //set the card object
      func setObjectCardToRender(card: ModelCards){
         self.cardToDraw =  card
+        self.quantity = card.count
         switch(cardToDraw.color)
         {
         case .green:
@@ -71,6 +74,11 @@ import UIKit
     
     
     //now since we are working with the set game am going to show the curner string of each cards
+    func setIsEnabled(v: Bool)
+    { enabled = v}
+    func isCardEnabled() -> Bool {
+        return enabled == true
+    }
     private var cornerString: NSAttributedString {
         return centeredAttributedString(counterString+rankString, fontSize: cornerFontSize)
     }
@@ -134,7 +142,7 @@ import UIKit
         configurecornerLabel(upperLeftCornerLabel)
         upperLeftCornerLabel.frame.origin =  bounds.origin.offsetBy(dx: cornerOffset, dy: cornerOffset)
         
-        //lets work with the low right text lol
+        
         
     }
     
@@ -153,6 +161,7 @@ import UIKit
     private func drawFillDiamond() -> UIBezierPath
     {
          let FillDiamond = UIBezierPath()
+        
         //lets use our extension offsetBy wich is a CGPoint
         FillDiamond.move(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
         FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: self.frame.height/2))
@@ -163,8 +172,7 @@ import UIKit
         FillDiamond.lineWidth = 3.0
         color.setFill()
         FillDiamond.fill()
-        
-   
+       
         
         FillDiamond.close()
         return FillDiamond
@@ -233,8 +241,8 @@ import UIKit
         }
         
         lines.lineWidth = 3.0
-        //color.setStroke()
-        UIColor.blue.setStroke()
+        color.setStroke()
+        //UIColor.blue.setStroke()
         lines.stroke()
         
         return lines;
@@ -252,7 +260,7 @@ import UIKit
         
         
         
-        print(" left on radian = \(leftAngleOnarc) and right on radian  = \(rightAngleOnArc) ")
+       // print(" left on radian = \(leftAngleOnarc) and right on radian  = \(rightAngleOnArc) ")
         ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4),
                     radius: self.frame.width/4,
                     startAngle: leftAngleOnarc,
@@ -285,7 +293,7 @@ import UIKit
         
         
         
-        print(" left on radian = \(leftAngleOnarc) and right on radian  = \(rightAngleOnArc) ")
+       // print(" left on radian = \(leftAngleOnarc) and right on radian  = \(rightAngleOnArc) ")
         ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4),
                     radius: self.frame.width/4,
                     startAngle: leftAngleOnarc,
@@ -318,7 +326,7 @@ import UIKit
         
         
         
-        print(" left on radian = \(leftAngleOnarc) and right on radian  = \(rightAngleOnArc) ")
+       // print(" left on radian = \(leftAngleOnarc) and right on radian  = \(rightAngleOnArc) ")
         ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4),
                     radius: self.frame.width/4,
                     startAngle: leftAngleOnarc,
@@ -441,7 +449,6 @@ import UIKit
         let roundedRect =  UIBezierPath(roundedRect: bounds, cornerRadius:cornerRadius)
         
         //this function clip just the same way a focus point clip to draw on a 3D space base on camera view point
-       // roundedRect.addClip()
         //lets set the color to fill this rectangle with
         UIColor.white.setFill()
         
@@ -456,34 +463,44 @@ import UIKit
                       {
                       case .filled:
                            path.append(drawFillDiamond())
+                           numberOfCard = 7
                       case .stiped:
                         path.append(addLineToFrame(path: StipedDiamond()))
+                        numberOfCard = 10
                       case .outlined:
                         path.append(drawEmptyDiamond())
+                         numberOfCard = 4
                        }
             case .oval:
                 switch(cardToDraw.shaded)
                 {
                 case .filled:
                     path.append(drawFillOval())
+                     numberOfCard = 9
                 case .stiped:
                     path.append(addLineToFrame(path: drawStipedOval()))
+                     numberOfCard = 12
                 case .outlined:
                     path.append(drawEmptyOval())
+                     numberOfCard = 6
                 }
             case .custom:
                 switch(cardToDraw.shaded)
                 {
                 case .filled:
                     path.append(drawCurveFillShape())
+                     numberOfCard = 8
                 case .stiped:
                     path.append(addLineToFrame(path:drawCurveStipedShape()))
+                     numberOfCard = 11
                 case .outlined:
                     path.append(drawCurveEmptyShape())
+                     numberOfCard = 5
                 }
             }
         }
         
+      //  drawPips()
     }
     
     private func drawPips() {
@@ -526,6 +543,7 @@ import UIKit
     }
     
     
+    
 }
 
 extension SetCardView {
@@ -551,16 +569,16 @@ extension SetCardView {
     private var rankString: String {
         switch numberOfCard {
         case 1: return "D"
-        case 2: return "S"
+        case 2: return "C"
         case 3: return "O"
         case 4: return "DE"
-        case 5: return "SE"
+        case 5: return "CE"
         case 6: return "OE"
         case 7: return "DF"
-        case 8: return "SF"
+        case 8: return "CF"
         case 9: return  "OF"
         case 10: return "DS"
-        case 11: return "SS"
+        case 11: return "CS"
         case 12: return "OS"
         default: return "?"
         }
