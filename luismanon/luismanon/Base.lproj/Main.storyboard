@@ -69,11 +69,11 @@
                         <constraints>
                             <constraint firstItem="Usi-mf-ptB" firstAttribute="leading" secondItem="dA0-BO-FJI" secondAttribute="leading" constant="16" id="Eie-3h-1j9"/>
                             <constraint firstItem="19n-ps-d4e" firstAttribute="top" secondItem="dA0-BO-FJI" secondAttribute="top" id="FaH-ol-mMm"/>
-                            <constraint firstItem="dA0-BO-FJI" firstAttribute="trailing" secondItem="19n-ps-d4e" secondAttribute="trailing" constant="68" id="HI9-19-jHw"/>
+                            <constraint firstItem="dA0-BO-FJI" firstAttribute="trailing" secondItem="19n-ps-d4e" secondAttribute="trailing" constant="16" id="HI9-19-jHw"/>
                             <constraint firstItem="fNq-Be-f2V" firstAttribute="firstBaseline" secondItem="19n-ps-d4e" secondAttribute="baseline" constant="35.5" symbolType="layoutAnchor" id="RZk-od-l5u"/>
                             <constraint firstItem="dA0-BO-FJI" firstAttribute="bottom" secondItem="Usi-mf-ptB" secondAttribute="bottom" constant="33.5" id="Wpi-Ug-Gyl"/>
-                            <constraint firstItem="19n-ps-d4e" firstAttribute="centerX" secondItem="dA0-BO-FJI" secondAttribute="centerX" id="ioO-B0-VMd"/>
-                            <constraint firstItem="19n-ps-d4e" firstAttribute="leading" secondItem="dA0-BO-FJI" secondAttribute="leading" constant="67" id="mcQ-lb-I56"/>
+                            <constraint firstItem="19n-ps-d4e" firstAttribute="centerX" secondItem="dA0-BO-FJI" secondAttribute="centerX" constant="16" id="ioO-B0-VMd"/>
+                            <constraint firstItem="19n-ps-d4e" firstAttribute="leading" secondItem="dA0-BO-FJI" secondAttribute="leading" constant="16" id="mcQ-lb-I56"/>
                             <constraint firstItem="dA0-BO-FJI" firstAttribute="trailing" secondItem="Usi-mf-ptB" secondAttribute="trailing" constant="16" id="pxw-bn-UT5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="dA0-BO-FJI"/>

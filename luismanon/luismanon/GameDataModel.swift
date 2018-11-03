@@ -294,11 +294,11 @@ struct GameDataModel {
         if tree.count > 0 {
             for obj in tree.indices {
                 let keyButton = tree[obj].key
-                let CardObject =  view.gameCollection[keyButton]
-                 print("parent node \(CardObject?.contents()) type = \(CardObject?.shaded) color = \(CardObject?.color) \n")
+                let CardObject =  view.gameCollection[keyButton]!
+                print("parent node \(String(describing: CardObject.contents())) type = \(CardObject.shaded) color = \(String(describing: CardObject.color)) \n")
                 for columns in tree[obj].value.indices {
-                     let childObject = view.gameCollection[tree[obj].value[columns]]
-                    print("\(childObject?.contents()) type = \(childObject?.shaded)")
+                     let childObject = view.gameCollection[tree[obj].value[columns]]!
+                    print("\(childObject.contents()) type = \(childObject.shaded)")
                 }
                 print("\n")
             }//close loop

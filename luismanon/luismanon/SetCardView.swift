@@ -12,6 +12,7 @@ import UIKit
     var path = UIBezierPath()
     var cardToDraw: ModelCards!
     var color : UIColor!
+    var UIController: ViewController!
     var enabled: Bool = true
    
     //this is the number of cards am going to be draw in this case this may be the object counter of specific card shapes
@@ -47,8 +48,9 @@ import UIKit
     
     
     //set the card object
-     func setObjectCardToRender(card: ModelCards){
+    func setObjectCardToRender(card: ModelCards, uiController: ViewController){
         self.cardToDraw =  card
+        self.UIController = uiController
         self.quantity = card.count
         switch(cardToDraw.color)
         {
@@ -142,10 +144,24 @@ import UIKit
         configurecornerLabel(upperLeftCornerLabel)
         upperLeftCornerLabel.frame.origin =  bounds.origin.offsetBy(dx: cornerOffset, dy: cornerOffset)
         
+        let touch = UITapGestureRecognizer(target: self,
+                                           action: #selector(touchView(byHandlingGestureRecognizedBy:)))
+        self.isUserInteractionEnabled = true
+        self.addGestureRecognizer(touch)
         
         
     }
     
+    
+    @objc func touchView(byHandlingGestureRecognizedBy recognizer: UITapGestureRecognizer) {
+        switch recognizer.state {
+        case .ended:
+            print("Just clicked on the view with card name ",self.cardToDraw.contents())
+            UIController.toggle_buttons(sender: self)
+        default:
+            break
+        }
+    }
     
     //adjust the card size base on scale lol
     @objc func adjustFaceCardScale(byHandlingGestureRecognizedBy recognizer: UIPinchGestureRecognizer) {

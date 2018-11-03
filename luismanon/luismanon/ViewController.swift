@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     var inGame: Bool = false
     var timer: Timer!
     var peakTimer : Int = 0
-    var PeakMaxTime = 8
+    var PeakMaxTime = 5
     var starPickTimer: Bool = false
     var counterOnPeak: Int = 0
     //counter to keep track of user finding a set
@@ -83,14 +83,15 @@ class ViewController: UIViewController {
         gameCollection.removeAll()
         
          for _ in 0..<initDecks {
-            
+             
             if !game.cardDeckObject().isDeckEmpty() {
                 let one = card.dealCard()
                 let newCard = SetCardView()
                 newCard.isHidden = false
                 newCard.setIsEnabled(v: true)
-                newCard.setObjectCardToRender(card: one!)
+                newCard.setObjectCardToRender(card: one!, uiController: self)
                 self.MainGameView.addSubview(newCard)
+                
                 viewButtons.append(newCard)
                 gameCollection.updateValue(one!, forKey: newCard)
                 counterOnPeak = counterOnPeak + 1
@@ -99,7 +100,18 @@ class ViewController: UIViewController {
         
         //print("number of cards deal \(counterOnPeak) ")
         game.computePossibleAlgorithms()
-        
+    }
+  
+
+    @objc func adjustFaceCardScale(byHandlingGestureRecognizedBy recognizer: UIPinchGestureRecognizer) {
+        switch recognizer.state {
+        case .changed, .ended:
+            break
+            //faceCardScale *= recognizer.scale
+            //recognizer.scale = 1.0
+        default:
+            break
+        }
     }
     
     //function return my own visible game collection for all cards
@@ -113,11 +125,18 @@ class ViewController: UIViewController {
     
 
     
-   /* @IBAction func toggle_buttons(_ sender: UIButton){
+    public func toggle_buttons(sender: SetCardView){
        //lets get the buttons from the hashable key and put it on a basket
         if(inGame){
              sender.backgroundColor = UIColor.cyan
-        
+            //animate the view as rotation
+            UIView.animate(withDuration: 1, animations: {
+                sender.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            }) { (finished) in
+                UIView.animate(withDuration: 1, animations: {
+                    sender.transform = CGAffineTransform.identity
+                })
+            }
             if gameSetBasket[sender] != nil {
                 //deselect a basket
                 game.score = game.score - 100
@@ -152,7 +171,7 @@ class ViewController: UIViewController {
         }
         
         
-    }*/
+    }
     
     //flush all the color of the grid to be default colors
     func flushColor()
@@ -163,7 +182,7 @@ class ViewController: UIViewController {
             if !viewButtons[index].enabled {
              viewButtons[index].backgroundColor = UIColor.lightGray
             }else{
-                viewButtons[index].backgroundColor = UIColor.white
+                viewButtons[index].backgroundColor = UIColor.black
             }
         }
     }
@@ -196,48 +215,23 @@ class ViewController: UIViewController {
     
     //touch new gsmr button function
     @IBAction func dealCards(_ sender: UIButton){
-        var counter = 0;
         if inGame {
-            for item in 0..<counterOnPeak {
-            
-                    if !viewButtons[item].enabled {
-                    if  counter < 3{
-                        let cardObject =  card.dealCard()
-                        viewButtons[item].enabled  = true;
-                        viewButtons[item].isHidden = false;
-                        viewButtons[item].setObjectCardToRender(card: cardObject!)
-                        viewButtons[item].backgroundColor = UIColor.white
-                        //insert this nice item to my dictionary
-                        gameCollection.updateValue(cardObject!, forKey: viewButtons[item])
-                        counter = counter + 1
-                    }
-                    
-                }
-            }
-            //lets fill the more cards
-            let difference = 2 - counter;
-            print("difference is now \(difference) ")
-            if(difference > 0 ){
-            for  index in 0...difference{
-                let pivot = (counterOnPeak) + index
+       
+            for  _ in 0...2{
                 if game.canDealMoreCards() {
                     let one = card.dealCard()
                     let newCard = SetCardView()
                     newCard.isHidden = false
                     newCard.setIsEnabled(v: true)
-                    newCard.setObjectCardToRender(card: one!)
+                    newCard.setObjectCardToRender(card: one!, uiController: self)
                     self.MainGameView.addSubview(newCard)
                     viewButtons.append(newCard)
-                    gameCollection.updateValue(one!, forKey: viewButtons[pivot])
-                
-                    counter = counter + 1
+                    gameCollection.updateValue(one!, forKey: newCard)
+                    counterOnPeak = counterOnPeak + 1
                 }
-            }
+            
             }//close if check
-            if game.canDealMoreCards() {
-            counterOnPeak = counterOnPeak + counter;
-            }
-          
+            
             game.computePossibleAlgorithms()
           
         }else{
@@ -287,6 +281,17 @@ class ViewController: UIViewController {
      
             sender.enabled = false
             sender.backgroundColor = UIColor.gray
+           UIView.animate(withDuration: 1, animations: {
+            sender.transform = CGAffineTransform(translationX: self.MainGameView.bounds.size.width, y: self.MainGameView.bounds.size.height )
+            }) { (finished) in
+            UIView.animate(withDuration: 1, animations: {
+                sender.transform = CGAffineTransform.identity
+                sender.removeFromSuperview()
+            })
+          }
+        
+    
+        
       
     }
     
@@ -302,13 +307,39 @@ class ViewController: UIViewController {
             let cardT =  gameCollection[dictionary].value
             if setFactory.firstCard.attributedContents() == cardT.attributedContents() {
                 animateButton(button: gameCollection[dictionary].key, color: colors[randomColor])
+                //animate this buttons
+                UIView.animate(withDuration: 1, animations: {
+                    self.gameCollection[dictionary].key.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+                }) { (finished) in
+                    UIView.animate(withDuration: 1, animations: {
+                        self.gameCollection[dictionary].key.transform = CGAffineTransform.identity
+                    })
+                }
             }
             if setFactory.secondCard.attributedContents() == cardT.attributedContents() {
                 animateButton(button: gameCollection[dictionary].key, color: colors[randomColor])
+                //animate this buttons
+                UIView.animate(withDuration: 1, animations: {
+                    self.gameCollection[dictionary].key.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+                }) { (finished) in
+                    UIView.animate(withDuration: 1, animations: {
+                        self.gameCollection[dictionary].key.transform = CGAffineTransform.identity
+                    })
+                }
+                
             }
             if setFactory.thirdCard.attributedContents() == cardT.attributedContents() {
                 animateButton(button: gameCollection[dictionary].key, color: colors[randomColor])
+                //animate this buttons
+                UIView.animate(withDuration: 1, animations: {
+                    self.gameCollection[dictionary].key.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+                }) { (finished) in
+                    UIView.animate(withDuration: 1, animations: {
+                        self.gameCollection[dictionary].key.transform = CGAffineTransform.identity
+                    })
+                }
             }
+            
             }//close if check 
             
         }//close for 
@@ -332,14 +363,18 @@ class ViewController: UIViewController {
             
             if(objectToFlush.count > 0)
             {
-                for index in objectToFlush.indices {
-                    disableButton(sender: objectToFlush[index])
-                }
-                //flushcolor
                 flushColor()
+                for index in objectToFlush.indices {
+                    self.MainGameView.willRemoveSubview(objectToFlush[index])
+                    disableButton(sender: objectToFlush[index])
+                    gameCollection.removeValue(forKey: objectToFlush[index])
+                    viewButtons.remove(at: index)
+                    counterOnPeak = counterOnPeak - 1
+                }
+              
                 objectToFlush.removeAll()
                 //dinamycally find and compute more sets
-                  game.computePossibleAlgorithms()
+                game.computePossibleAlgorithms()
                 //lets re arrange grid
                 reArrangeButtons = true
             }
