@@ -273,7 +273,7 @@ import UIKit
             height =  height + 20.0;
         }
         
-        lines.lineWidth = 3.0
+        lines.lineWidth = 1.0
         color.setStroke()
         //UIColor.blue.setStroke()
         lines.stroke()
@@ -306,7 +306,11 @@ import UIKit
                         startAngle: rightAngleOnArc,
                         endAngle: leftAngleOnarc,
                         clockwise: true)
-            oval.addLine(to: bounds.origin.offsetBy(dx:self.frame.width*(pW-0.14), dy:self.frame.height*pH))
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH),
+                        radius: 8,
+                        startAngle: leftAngleOnarc,
+                        endAngle: rightAngleOnArc,
+                        clockwise: true)
             
             color.setFill()
             oval.fill()
@@ -343,7 +347,11 @@ import UIKit
                         startAngle: rightAngleOnArc,
                         endAngle: leftAngleOnarc,
                         clockwise: true)
-            oval.addLine(to: bounds.origin.offsetBy(dx:self.frame.width*(pW-0.14), dy:self.frame.height*pH))
+           oval.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH),
+                       radius: 8,
+                       startAngle: leftAngleOnarc,
+                       endAngle: rightAngleOnArc,
+                       clockwise: true)
             
             color.setStroke()
             oval.stroke()
@@ -381,12 +389,16 @@ import UIKit
                         startAngle: rightAngleOnArc,
                         endAngle: leftAngleOnarc,
                         clockwise: true)
-            oval.addLine(to: bounds.origin.offsetBy(dx:self.frame.width*(pW-0.14), dy:self.frame.height*pH))
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH),
+                        radius: 8,
+                        startAngle: leftAngleOnarc,
+                        endAngle: rightAngleOnArc,
+                        clockwise: true)
             
             color.setStroke()
             oval.stroke()
             oval.close()
-            pW = pW + 0.40
+            pW = pW + 0.30
             toDraw.append(oval)
         }
         
@@ -395,94 +407,146 @@ import UIKit
     //============================================END OF STIPED OVAL= ==============================================
     //============================================BEGIN OF WEIRD SHAPE =============================================
     func drawCurveFillShape() -> UIBezierPath
-    {
-        let curve  = UIBezierPath()
-        
-        var leftAngleOnarc =  CGFloat(0) * CGFloat.pi
+    { let toDraw  = UIBezierPath()
+        var leftAngleOnarc =  CGFloat(180.0) * CGFloat.pi
         leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
         
         //right angle
-        var rightAngleOnArc = CGFloat(130) * CGFloat.pi
+        var rightAngleOnArc = CGFloat(0.0) * CGFloat.pi
         rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
+        var pW:CGFloat = 0.20
+        let pH:CGFloat = 0.30
         
-        //top arc
-        let starc = CGFloat(40) * CGFloat.pi / CGFloat(180.0)
-        let etarc = CGFloat(145) * CGFloat.pi / CGFloat(180.0)
         
-        curve.move(to: bounds.origin.offsetBy(dx: self.frame.width - self.frame.width/3, dy: self.frame.height/5))
-        curve.addCurve(to: bounds.origin.offsetBy(dx: self.frame.width-self.frame.width/4, dy: self.frame.height - self.frame.height/4), controlPoint1: bounds.origin.offsetBy(dx: self.frame.width, dy: self.frame.height/6),
-                       controlPoint2: bounds.origin.offsetBy(dx: self.frame.width/2 - self.frame.width/4, dy: self.frame.height - self.frame.height/4))
-        curve.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height-self.frame.height/4), radius: self.frame.width/4, startAngle: leftAngleOnarc, endAngle: rightAngleOnArc, clockwise: true)
-        curve.addCurve(to: bounds.origin.offsetBy(dx: self.frame.width/2 - self.frame.width/6, dy: self.frame.height/2 - self.frame.height/6), controlPoint1: bounds.origin.offsetBy(dx: 0, dy: self.frame.height - self.frame.height/3),
-                       controlPoint2: bounds.origin.offsetBy(dx: self.frame.width - self.frame.width/4, dy: self.frame.height/3))
-        
-       curve.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4), radius: self.frame.width/4, startAngle: etarc, endAngle: starc, clockwise: true)
-        
-        color.setFill()
-        curve.fill()
-
-        curve.close()
-     return curve
+        for _ in 0..<cardToDraw.count {
+            let oval =  UIBezierPath()
+            //top oval
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH),
+                        radius: 8,
+                        startAngle: leftAngleOnarc,
+                        endAngle: rightAngleOnArc,
+                        clockwise: true)
+            //right line
+            oval.addCurve(to: bounds.origin.offsetBy(dx:self.frame.width*pW, dy: self.frame.height*(pH+0.40)), controlPoint1: bounds.origin.offsetBy(dx: self.frame.width*(pW+0.10), dy: self.frame.height*(pH+0.20)), controlPoint2: bounds.origin.offsetBy(dx: self.frame.width*(pW-0.10), dy: self.frame.height*(pH+0.20)))
+            //bottom oval
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx:self.frame.width*pW, dy: self.frame.height*(pH+0.40)),
+                        radius: 8,
+                        startAngle: rightAngleOnArc,
+                        endAngle: leftAngleOnarc,
+                        clockwise: true)
+            //left line
+            oval.addCurve(to: bounds.origin.offsetBy(dx:self.frame.width*pW, dy: self.frame.height*(pH)), controlPoint1: bounds.origin.offsetBy(dx: self.frame.width*(pW-0.10), dy: self.frame.height*(pH)), controlPoint2: bounds.origin.offsetBy(dx: self.frame.width*(pW+0.10), dy: self.frame.height*(pH)))
+            //top oval
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH),
+                        radius: 8,
+                        startAngle: leftAngleOnarc,
+                        endAngle: rightAngleOnArc,
+                        clockwise: true)
+            
+            color.setFill()
+            oval.fill()
+            oval.close()
+            pW = pW + 0.30
+            toDraw.append(oval)
+        }
+     return toDraw
     }
     //=======================================================draw empty shape =================================
     func drawCurveEmptyShape() -> UIBezierPath
     {
-        let curve  = UIBezierPath()
-        curve.addClip()
-        var leftAngleOnarc =  CGFloat(0) * CGFloat.pi
+        let toDraw  = UIBezierPath()
+        var leftAngleOnarc =  CGFloat(180.0) * CGFloat.pi
         leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
         
         //right angle
-        var rightAngleOnArc = CGFloat(130) * CGFloat.pi
+        var rightAngleOnArc = CGFloat(0.0) * CGFloat.pi
         rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
+        var pW:CGFloat = 0.20
+        let pH:CGFloat = 0.30
         
-        //top arc
-        let starc = CGFloat(0) * CGFloat.pi / CGFloat(180.0)
-        let etarc = CGFloat(145) * CGFloat.pi / CGFloat(180.0)
         
-        curve.move(to: bounds.origin.offsetBy(dx: self.frame.width - (self.frame.width/3) - CGFloat(0.7), dy: self.frame.height/5))
-        curve.addCurve(to: bounds.origin.offsetBy(dx: self.frame.width-self.frame.width/4, dy: self.frame.height - self.frame.height/4), controlPoint1: bounds.origin.offsetBy(dx: self.frame.width, dy: self.frame.height/6),
-                       controlPoint2: bounds.origin.offsetBy(dx: self.frame.width/2 - self.frame.width/4, dy: self.frame.height - self.frame.height/4))
-        curve.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height-self.frame.height/4), radius: self.frame.width/4, startAngle: leftAngleOnarc, endAngle: rightAngleOnArc, clockwise: true)
-        curve.addCurve(to: bounds.origin.offsetBy(dx: self.frame.width/2 - self.frame.width/6, dy: self.frame.height/2 - self.frame.height/6), controlPoint1: bounds.origin.offsetBy(dx: 0, dy: self.frame.height - self.frame.height/3),
-                       controlPoint2: bounds.origin.offsetBy(dx: self.frame.width - self.frame.width/4, dy: self.frame.height/3))
+        for _ in 0..<cardToDraw.count {
+            let oval =  UIBezierPath()
+            //top oval
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH),
+                        radius: 8,
+                        startAngle: leftAngleOnarc,
+                        endAngle: rightAngleOnArc,
+                        clockwise: true)
+            //right line
+            oval.addCurve(to: bounds.origin.offsetBy(dx:self.frame.width*pW, dy: self.frame.height*(pH+0.40)), controlPoint1: bounds.origin.offsetBy(dx: self.frame.width*(pW+0.10), dy: self.frame.height*(pH+0.20)), controlPoint2: bounds.origin.offsetBy(dx: self.frame.width*(pW-0.10), dy: self.frame.height*(pH+0.20)))
+            //bottom oval
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx:self.frame.width*pW, dy: self.frame.height*(pH+0.40)),
+                        radius: 8,
+                        startAngle: rightAngleOnArc,
+                        endAngle: leftAngleOnarc,
+                        clockwise: true)
+            //left line
+            oval.addCurve(to: bounds.origin.offsetBy(dx:self.frame.width*pW, dy: self.frame.height*(pH)), controlPoint1: bounds.origin.offsetBy(dx: self.frame.width*(pW-0.10), dy: self.frame.height*(pH)), controlPoint2: bounds.origin.offsetBy(dx: self.frame.width*(pW+0.10), dy: self.frame.height*(pH)))
+            //top oval
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH),
+                        radius: 8,
+                        startAngle: leftAngleOnarc,
+                        endAngle: rightAngleOnArc,
+                        clockwise: true)
+            
+            color.setStroke()
+            oval.stroke()
+            oval.close()
+            pW = pW + 0.30
+            toDraw.append(oval)
+        }
         
-        curve.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4), radius: self.frame.width/4, startAngle: etarc, endAngle: starc, clockwise: true)
-        
-        color.setStroke()
-        curve.stroke()
-        curve.close()
-        return curve
+        return toDraw
     }
+   
     
     //======================================================draw stiped path for Custom curve shape =============================
     func drawCurveStipedShape() -> UIBezierPath {
-    let curve  = UIBezierPath()
-    
-    var leftAngleOnarc =  CGFloat(0) * CGFloat.pi
-    leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
-    
-    //right angle
-    var rightAngleOnArc = CGFloat(130) * CGFloat.pi
-    rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
-    
-    //top arc
-    let starc = CGFloat(0) * CGFloat.pi / CGFloat(180.0)
-    let etarc = CGFloat(145) * CGFloat.pi / CGFloat(180.0)
-    
-    curve.move(to: bounds.origin.offsetBy(dx: self.frame.width - (self.frame.width/3) - CGFloat(0.7), dy: self.frame.height/5))
-    curve.addCurve(to: bounds.origin.offsetBy(dx: self.frame.width-self.frame.width/4, dy: self.frame.height - self.frame.height/4), controlPoint1: bounds.origin.offsetBy(dx: self.frame.width, dy: self.frame.height/6),
-    controlPoint2: bounds.origin.offsetBy(dx: self.frame.width/2 - self.frame.width/4, dy: self.frame.height - self.frame.height/4))
-    curve.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height-self.frame.height/4), radius: self.frame.width/4, startAngle: leftAngleOnarc, endAngle: rightAngleOnArc, clockwise: true)
-    curve.addCurve(to: bounds.origin.offsetBy(dx: self.frame.width/2 - self.frame.width/6, dy: self.frame.height/2 - self.frame.height/6), controlPoint1: bounds.origin.offsetBy(dx: 0, dy: self.frame.height - self.frame.height/3),
-    controlPoint2: bounds.origin.offsetBy(dx: self.frame.width - self.frame.width/4, dy: self.frame.height/3))
-    
-    curve.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4), radius: self.frame.width/4, startAngle: etarc, endAngle: starc, clockwise: true)
-    
-    color.setStroke()
-    curve.stroke()
-    curve.close()
-        return curve
+        let toDraw  = UIBezierPath()
+        toDraw.addClip()
+        var leftAngleOnarc =  CGFloat(180.0) * CGFloat.pi
+        leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
+        
+        //right angle
+        var rightAngleOnArc = CGFloat(0.0) * CGFloat.pi
+        rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
+        var pW:CGFloat = 0.20
+        let pH:CGFloat = 0.30
+        
+        
+        for _ in 0..<cardToDraw.count {
+            let oval =  UIBezierPath()
+            //top oval
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH),
+                        radius: 8,
+                        startAngle: leftAngleOnarc,
+                        endAngle: rightAngleOnArc,
+                        clockwise: true)
+            //right line
+            oval.addCurve(to: bounds.origin.offsetBy(dx:self.frame.width*pW, dy: self.frame.height*(pH+0.40)), controlPoint1: bounds.origin.offsetBy(dx: self.frame.width*(pW+0.10), dy: self.frame.height*(pH+0.20)), controlPoint2: bounds.origin.offsetBy(dx: self.frame.width*(pW-0.10), dy: self.frame.height*(pH+0.20)))
+            //bottom oval
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx:self.frame.width*pW, dy: self.frame.height*(pH+0.40)),
+                        radius: 8,
+                        startAngle: rightAngleOnArc,
+                        endAngle: leftAngleOnarc,
+                        clockwise: true)
+            //left line
+            oval.addCurve(to: bounds.origin.offsetBy(dx:self.frame.width*pW, dy: self.frame.height*(pH)), controlPoint1: bounds.origin.offsetBy(dx: self.frame.width*(pW-0.10), dy: self.frame.height*(pH)), controlPoint2: bounds.origin.offsetBy(dx: self.frame.width*(pW+0.10), dy: self.frame.height*(pH)))
+            //top oval
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH),
+                        radius: 8,
+                        startAngle: leftAngleOnarc,
+                        endAngle: rightAngleOnArc,
+                        clockwise: true)
+            
+            color.setStroke()
+            oval.stroke()
+            oval.close()
+            pW = pW + 0.30
+            toDraw.append(oval)
+        }
+        return toDraw
     }
     
     //now lets draw into this nice function lol

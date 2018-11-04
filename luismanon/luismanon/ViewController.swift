@@ -80,6 +80,7 @@ class ViewController: UIViewController {
     //this function is to initialize my game buttons dynamically
     func initGameUiButtons(initDecks: Int)
     {
+        viewButtons.removeAll()
         gameCollection.removeAll()
         
          for _ in 0..<initDecks {
@@ -189,9 +190,13 @@ class ViewController: UIViewController {
     
     //touch new gsmr button function
     @IBAction func newGame(_ sender: UIButton){
+        if !inGame {
          inGame = true
         self.newGame.setTitle("InGame", for: .normal)
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+        }else{
+            restartGame()
+        }
     }
     //touch peak button function
       @IBAction func peak(_ sender: UIButton){
@@ -211,6 +216,20 @@ class ViewController: UIViewController {
         }
     }
     
+    func restartGame() {
+        
+        gameCollection.removeAll()
+        for index in viewButtons.indices {
+            disableButton(sender: viewButtons[index])
+        }
+        
+        viewButtons.removeAll()
+        counterOnPeak = 0
+        game.score = 0
+        game.gameTimer = 0
+        // Do any additional setup after loading the view, typically from a nib.
+        initGameUiButtons(initDecks: 12)
+    }
 
     
     //touch new gsmr button function
