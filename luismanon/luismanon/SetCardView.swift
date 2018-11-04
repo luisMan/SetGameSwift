@@ -176,69 +176,86 @@ import UIKit
     //=====================================================================Draw a stiped diamond ===================================
     private func drawFillDiamond() -> UIBezierPath
     {
-         let FillDiamond = UIBezierPath()
+         let outPath = UIBezierPath()
         
         //lets use our extension offsetBy wich is a CGPoint
-        FillDiamond.move(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
-        FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: self.frame.height/2))
-        FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height - (self.frame.height/4)))
-        FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width-(self.frame.width/4), dy: self.frame.height/2))
-        FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
+        var pW:CGFloat = 0.20
+        let pH:CGFloat = 0.30
+        for _ in 0..<cardToDraw.count {
+        let FillDiamond = UIBezierPath()
+        FillDiamond.move(to: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH))
+        FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width*(pW-0.10), dy: self.frame.height*(pH+0.20)))
+        FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*(pH+0.40)))
+        FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width*(pW+0.10), dy: self.frame.height*(pH+0.20)))
+        FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*(pH)))
         
-        FillDiamond.lineWidth = 3.0
-        color.setFill()
-        FillDiamond.fill()
-       
+            FillDiamond.lineWidth = 3.0
+            color.setFill()
+            FillDiamond.fill()
+            FillDiamond.close()
+            pW = pW + 0.30
+            outPath.append(FillDiamond)
+        }
+    
         
-        FillDiamond.close()
-        return FillDiamond
+        return outPath
     }
     
     //====================================end of a fill diamond object==================================
     //=====================================================================Draw a empty diamond ===================================
     private func drawEmptyDiamond() -> UIBezierPath
     {
-        let EmptyDiamong = UIBezierPath()
+        let outPath = UIBezierPath()
+        
         //lets use our extension offsetBy wich is a CGPoint
-        EmptyDiamong.move(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
-        EmptyDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: self.frame.height/2))
-        EmptyDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height - (self.frame.height/4)))
-        EmptyDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width-(self.frame.width/4), dy: self.frame.height/2))
-        EmptyDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
-      
-        EmptyDiamong.lineWidth = 3.0
+        var pW:CGFloat = 0.20
+        let pH:CGFloat = 0.30
+        for _ in 0..<cardToDraw.count {
+            let FillDiamond = UIBezierPath()
+            FillDiamond.move(to: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH))
+            FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width*(pW-0.10), dy: self.frame.height*(pH+0.20)))
+            FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*(pH+0.40)))
+            FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width*(pW+0.10), dy: self.frame.height*(pH+0.20)))
+            FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*(pH)))
+            
+            FillDiamond.lineWidth = 3.0
+            color.setStroke()
+            FillDiamond.stroke()
+            FillDiamond.close()
+            pW = pW + 0.30
+            outPath.append(FillDiamond)
+        }
         
-        
-        // Specify a border (stroke) color.
-        color.setStroke()
-        EmptyDiamong.stroke()
-        
-        EmptyDiamong.close()
-        
-        return EmptyDiamong
+        return outPath
     }
     
     //====================================end of a fill diamond object==================================
     //====================================Draw striped diamong ========================================
     private func StipedDiamond() ->  UIBezierPath{
         
-        let StipeDiamong = UIBezierPath()
-        StipeDiamong.addClip()
+        let outPath = UIBezierPath()
+        outPath.addClip()
         
-        StipeDiamong.move(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
-        StipeDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: self.frame.height/2))
-        StipeDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height - (self.frame.height/4)))
-        StipeDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width-(self.frame.width/4), dy: self.frame.height/2))
-        StipeDiamong.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4))
+        //lets use our extension offsetBy wich is a CGPoint
+        var pW:CGFloat = 0.20
+        let pH:CGFloat = 0.30
+        for _ in 0..<cardToDraw.count {
+            let FillDiamond = UIBezierPath()
+            FillDiamond.move(to: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH))
+            FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width*(pW-0.10), dy: self.frame.height*(pH+0.20)))
+            FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*(pH+0.40)))
+            FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width*(pW+0.10), dy: self.frame.height*(pH+0.20)))
+            FillDiamond.addLine(to: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*(pH)))
+            
+            FillDiamond.lineWidth = 3.0
+            color.setStroke()
+            FillDiamond.stroke()
+            FillDiamond.close()
+            pW = pW + 0.30
+            outPath.append(FillDiamond)
+        }
         
-      
-        StipeDiamong.lineWidth = 3.0
-        color.setStroke()
-        StipeDiamong.stroke()
-        
-        StipeDiamong.close()
-        
-        return StipeDiamong
+        return outPath
         
     }
     //=====================================================end of Stiped Diamong shape frame ==============================================//
@@ -248,11 +265,11 @@ import UIKit
         lines.append(path);
         
         lines.addClip()
-        var height =  self.frame.height/6
+        var height:CGFloat = 0.0
         
-        for _ in 0...30 {
-            lines.move(to: bounds.origin.offsetBy(dx: self.frame.width/4, dy: height))
-            lines.addLine(to: bounds.origin.offsetBy(dx: self.frame.width - (self.frame.width/4), dy: height))
+        for _ in 0...50 {
+            lines.move(to: bounds.origin.offsetBy(dx: 0.0, dy: height))
+            lines.addLine(to: bounds.origin.offsetBy(dx: self.frame.width, dy: height))
             height =  height + 20.0;
         }
         
@@ -265,7 +282,7 @@ import UIKit
     }
     //================================================function to draw  a Oval ===============
     func drawFillOval() -> UIBezierPath{
-        let ovar =  UIBezierPath()
+        let toDraw =  UIBezierPath()
         //left angle
         var leftAngleOnarc =  CGFloat(180.0) * CGFloat.pi
         leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
@@ -273,32 +290,36 @@ import UIKit
         //right angle
         var rightAngleOnArc = CGFloat(0.0) * CGFloat.pi
         rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
+        var pW:CGFloat = 0.20
+        let pH:CGFloat = 0.30
         
         
-        
-       // print(" left on radian = \(leftAngleOnarc) and right on radian  = \(rightAngleOnArc) ")
-        ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4),
-                    radius: self.frame.width/4,
-                    startAngle: leftAngleOnarc,
-                    endAngle: rightAngleOnArc,
-                    clockwise: true)
-        ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height-self.frame.height/4),
-                    radius: self.frame.width/4,
-                    startAngle: rightAngleOnArc,
-                    endAngle: leftAngleOnarc,
-                    clockwise: true)
-        ovar.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2-(self.frame.width/4), dy: self.frame.height/4))
-        
-       color.setFill()
-       ovar.fill()
-    
-        ovar.close()
-     return ovar
+        for _ in 0..<cardToDraw.count {
+            let oval =  UIBezierPath()
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH),
+                        radius: 8,
+                        startAngle: leftAngleOnarc,
+                        endAngle: rightAngleOnArc,
+                        clockwise: true)
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx:self.frame.width*pW, dy: self.frame.height*(pH+0.40)),
+                        radius: 8,
+                        startAngle: rightAngleOnArc,
+                        endAngle: leftAngleOnarc,
+                        clockwise: true)
+            oval.addLine(to: bounds.origin.offsetBy(dx:self.frame.width*(pW-0.14), dy:self.frame.height*pH))
+            
+            color.setFill()
+            oval.fill()
+            oval.close()
+            pW = pW + 0.30
+            toDraw.append(oval)
+        }
+     return toDraw
     }
     //=====================================================end of draw fill oval=====================
     //=====================================================begind of empty oval ======================
     func drawEmptyOval() -> UIBezierPath{
-        let ovar =  UIBezierPath()
+        let toDraw =  UIBezierPath()
         //left angle
         var leftAngleOnarc =  CGFloat(180.0) * CGFloat.pi
         leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
@@ -306,32 +327,37 @@ import UIKit
         //right angle
         var rightAngleOnArc = CGFloat(0.0) * CGFloat.pi
         rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
+        var pW:CGFloat = 0.20
+        let pH:CGFloat = 0.30
         
         
+        for _ in 0..<cardToDraw.count {
+            let oval =  UIBezierPath()
+                oval.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH),
+                        radius: 8,
+                        startAngle: leftAngleOnarc,
+                        endAngle: rightAngleOnArc,
+                        clockwise: true)
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx:self.frame.width*pW, dy: self.frame.height*(pH+0.40)),
+                        radius: 8,
+                        startAngle: rightAngleOnArc,
+                        endAngle: leftAngleOnarc,
+                        clockwise: true)
+            oval.addLine(to: bounds.origin.offsetBy(dx:self.frame.width*(pW-0.14), dy:self.frame.height*pH))
+            
+            color.setStroke()
+            oval.stroke()
+            oval.close()
+            pW = pW + 0.30
+            toDraw.append(oval)
+        }
         
-       // print(" left on radian = \(leftAngleOnarc) and right on radian  = \(rightAngleOnArc) ")
-        ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4),
-                    radius: self.frame.width/4,
-                    startAngle: leftAngleOnarc,
-                    endAngle: rightAngleOnArc,
-                    clockwise: true)
-        ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height-self.frame.height/4),
-                    radius: self.frame.width/4,
-                    startAngle: rightAngleOnArc,
-                    endAngle: leftAngleOnarc,
-                    clockwise: true)
-        ovar.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2-(self.frame.width/4), dy: self.frame.height/4))
-        
-        color.setStroke()
-        ovar.stroke()
-        
-        ovar.close()
-        return ovar;
+        return toDraw
     }
     //====================================================begin of stiped oval -=================================
     func drawStipedOval() -> UIBezierPath{
-        let ovar =  UIBezierPath()
-        ovar.addClip()
+        let toDraw =  UIBezierPath()
+        toDraw.addClip()
         //left angle
         var leftAngleOnarc =  CGFloat(180.0) * CGFloat.pi
         leftAngleOnarc = leftAngleOnarc / CGFloat(180.0)
@@ -339,27 +365,32 @@ import UIKit
         //right angle
         var rightAngleOnArc = CGFloat(0.0) * CGFloat.pi
         rightAngleOnArc =  rightAngleOnArc / CGFloat(180.0)
+        var pW:CGFloat = 0.20
+        let pH:CGFloat = 0.30
         
         
+        for _ in 0..<cardToDraw.count {
+            let oval =  UIBezierPath()
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width*pW, dy: self.frame.height*pH),
+                        radius: 8,
+                        startAngle: leftAngleOnarc,
+                        endAngle: rightAngleOnArc,
+                        clockwise: true)
+            oval.addArc(withCenter: bounds.origin.offsetBy(dx:self.frame.width*pW, dy: self.frame.height*(pH+0.40)),
+                        radius: 8,
+                        startAngle: rightAngleOnArc,
+                        endAngle: leftAngleOnarc,
+                        clockwise: true)
+            oval.addLine(to: bounds.origin.offsetBy(dx:self.frame.width*(pW-0.14), dy:self.frame.height*pH))
+            
+            color.setStroke()
+            oval.stroke()
+            oval.close()
+            pW = pW + 0.40
+            toDraw.append(oval)
+        }
         
-       // print(" left on radian = \(leftAngleOnarc) and right on radian  = \(rightAngleOnArc) ")
-        ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height/4),
-                    radius: self.frame.width/4,
-                    startAngle: leftAngleOnarc,
-                    endAngle: rightAngleOnArc,
-                    clockwise: true)
-        ovar.addArc(withCenter: bounds.origin.offsetBy(dx: self.frame.width/2, dy: self.frame.height-self.frame.height/4),
-                    radius: self.frame.width/4,
-                    startAngle: rightAngleOnArc,
-                    endAngle: leftAngleOnarc,
-                    clockwise: true)
-        ovar.addLine(to: bounds.origin.offsetBy(dx: self.frame.width/2-(self.frame.width/4), dy: self.frame.height/4))
-        
-        UIColor.red.setStroke()
-        ovar.stroke()
-        
-        ovar.close()
-        return ovar;
+        return toDraw
     }
     //============================================END OF STIPED OVAL= ==============================================
     //============================================BEGIN OF WEIRD SHAPE =============================================
