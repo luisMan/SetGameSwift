@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     var inGame: Bool = false
     var timer: Timer!
     var peakTimer : Int = 0
-    var PeakMaxTime = 5
+    var PeakMaxTime = 3
     var starPickTimer: Bool = false
     var counterOnPeak: Int = 0
     //counter to keep track of user finding a set

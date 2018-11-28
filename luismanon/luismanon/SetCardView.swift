@@ -11,6 +11,7 @@ import UIKit
 @IBDesignable class SetCardView: UIView {
     var path = UIBezierPath()
     var cardToDraw: ModelCards!
+    var isFaceDown: Bool!
     var color : UIColor!
     var UIController: ViewController!
     var enabled: Bool = true
@@ -30,13 +31,6 @@ import UIKit
         }
     }
     
-    //this variable will keep track of my card on face up or down but on our selection is removed or shown
-    @IBInspectable var isFaceUp: Bool =  true {
-        didSet{
-            setNeedsDisplay()
-            setNeedsLayout()
-        }
-    }
     
     //this inspectable var is to draw specific shape on the View default one is circle
     @IBInspectable var type: String = "circle" {
@@ -62,6 +56,10 @@ import UIKit
             color = UIColor.purple
         }
         
+    }
+    
+    func setCardFaceUp(flip: Bool){
+        self.isFaceDown =  flip
     }
     
     
@@ -132,7 +130,7 @@ import UIKit
         label.attributedText = cornerString
         label.frame.size = CGSize.zero
         label.sizeToFit()
-        label.isHidden = !isFaceUp
+        label.isHidden = !isFaceDown
     }
     
     
@@ -567,7 +565,7 @@ import UIKit
         roundedRect.fill()
         
         //lets check if is not deleted from view
-        if isFaceUp {
+        if !isFaceDown {
             switch(cardToDraw.shape){
             case .diamond:
                       switch(cardToDraw.shaded)
@@ -609,9 +607,15 @@ import UIKit
                      numberOfCard = 5
                 }
             }
+        }else{
+            if let cardBackImage = UIImage(named: "cardback",
+                                           in: Bundle(for: self.classForCoder),
+                                           compatibleWith: traitCollection) {
+                cardBackImage.draw(in: bounds)
+            }
+            
         }
         
-      //  drawPips()
     }
     
     private func drawPips() {
