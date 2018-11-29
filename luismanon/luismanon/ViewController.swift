@@ -13,6 +13,10 @@ class ViewController: UIViewController {
     @IBOutlet  var newGame: UIButton!
     @IBOutlet  var Peak: [UIButton]!
     @IBOutlet  var deal: UIButton!
+    
+    //my animator to make cards move :-)
+    lazy var animator = UIDynamicAnimator(referenceView: self.view)
+    lazy var cardBehavior = CardAnimator(in: animator)
   
 
     @IBOutlet weak var MainGameView: MainViewGame!
@@ -25,6 +29,7 @@ class ViewController: UIViewController {
     
     //the array to holes all the card view on this grid
     public var viewButtons = [SetCardView]()
+    private var needAnimation = [SetCardView]()
     
     //ingame boolean
     var inGame: Bool = false
@@ -75,7 +80,39 @@ class ViewController: UIViewController {
         button.backgroundColor = color
     }
     
-  
+     //my fly animation funtion
+    func fly_with_animation()
+    {
+        var delayTime : Double = 0
+        let grid = Grid(for: MainGameView.frame, withNoOfFrames: counterOnPeak)
+        for indexAnimating in 0..<self.needAnimation.count {
+            let gridIndex = self.MainGameView.index(ofAccessibilityElement: needAnimation[indexAnimating])
+            delayTime = 0.1 * Double(indexAnimating)
+        UIView.animate(withDuration: 0.7,
+                       delay: 8,
+                       options: .curveEaseInOut,
+                       animations: {
+                        
+                        if(grid[gridIndex] != nil ){
+                        self.needAnimation[indexAnimating].frame = grid[gridIndex]!
+                        }
+        },
+                       completion: { finisehed in
+                        UIView.transition(with: self.needAnimation[indexAnimating],
+                                          duration: 0.2,
+                                          options: .transitionFlipFromLeft,
+                                          animations: {
+                                            self.needAnimation[indexAnimating].isFaceDown = false
+                                            self.needAnimation[indexAnimating].setNeedsDisplay()
+                                            
+                        }, completion: { finisehed in
+                           
+                            //you can allow interaction if you want here
+                        
+                        })
+        })
+    }
+    }
     
     //this function is to initialize my game buttons dynamically
     func initGameUiButtons(initDecks: Int)
@@ -91,12 +128,14 @@ class ViewController: UIViewController {
                 newCard.isHidden = false
                 newCard.setIsEnabled(v: true)
                 newCard.setObjectCardToRender(card: one!, uiController: self)
+                newCard.setCardFaceDown(flip: true)
                 self.MainGameView.addSubview(newCard)
-                
+                needAnimation.append(newCard)
                 viewButtons.append(newCard)
                 gameCollection.updateValue(one!, forKey: newCard)
                 counterOnPeak = counterOnPeak + 1
             }
+            
         }
         
         //print("number of cards deal \(counterOnPeak) ")
@@ -124,18 +163,60 @@ class ViewController: UIViewController {
         return self.gameSetBasket
     }
     
+    //this function is going to animate my card on deal and then flip it when it reach its destination
+    func animateAndFlipCard(sender: SetCardView){
+        UIView.transition(with: sender,
+                          duration: 0.5,
+                          options: [.transitionFlipFromLeft],
+                          animations: {
+                            sender.isFaceDown = !sender.isFaceDown
+                          },
+                          completion: { finished in
+                            let cardToAnimate = sender
+                                UIViewPropertyAnimator.runningPropertyAnimator(
+                                    withDuration: 0.6,
+                                    delay: 0,
+                                    options: [],
+                                    animations: {
+                                       
+                                            cardToAnimate.transform = CGAffineTransform.identity.scaledBy(x: 0.5,
+                                                                                               y: 0.5)
+                                },  completion: { finished in
+                                    UIViewPropertyAnimator.runningPropertyAnimator(
+                                        withDuration: 0.75,
+                                        delay: 0,
+                                        options: [],
+                                        animations: {
+                                            
+                                                 cardToAnimate.transform = CGAffineTransform.identity.scaledBy(x: 0.1,
+                                                                                                   y: 0.1)
+                                                 cardToAnimate.alpha = 0
+                                            
+                                    },
+                                        completion: { finished in
+                                          
+                                                 cardToAnimate.isHidden = false
+                                                 cardToAnimate.alpha = 1.0
+                                                 cardToAnimate.transform = CGAffineTransform.identity
+                                          
+                                    }
+                                    )
+                                })
+                           })
+    }
 
     
     public func toggle_buttons(sender: SetCardView){
        //lets get the buttons from the hashable key and put it on a basket
         if(inGame){
              sender.backgroundColor = UIColor.cyan
+            
             //animate the view as rotation
             UIView.animate(withDuration: 1, animations: {
                 sender.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             }) { (finished) in
                 UIView.animate(withDuration: 1, animations: {
-                    sender.transform = CGAffineTransform.identity
+                    //sender.transform = CGAffineTransform.identity
                 })
             }
             if gameSetBasket[sender] != nil {
@@ -241,16 +322,18 @@ class ViewController: UIViewController {
                     let one = card.dealCard()
                     let newCard = SetCardView()
                     newCard.isHidden = false
+                    newCard.isFaceDown = true;
                     newCard.setIsEnabled(v: true)
                     newCard.setObjectCardToRender(card: one!, uiController: self)
                     self.MainGameView.addSubview(newCard)
+                    needAnimation.append(newCard)
                     viewButtons.append(newCard)
                     gameCollection.updateValue(one!, forKey: newCard)
                     counterOnPeak = counterOnPeak + 1
                 }
-            
+           
             }//close if check
-            
+             fly_with_animation()
             game.computePossibleAlgorithms()
           
         }else{
@@ -442,12 +525,19 @@ class ViewController: UIViewController {
         disableButtons();
         // Do any additional setup after loading the view, typically from a nib.
         initGameUiButtons(initDecks: 12)
+        fly_with_animation();
         
     }
     
 
 }
 
+//compute a random index
+extension CGFloat {
+    var arc4random: CGFloat {
+        return self * CGFloat(arc4random_uniform(UInt32.max)) / CGFloat(UInt32.max)
+    }
+}
 //compute a random index
 extension Int {
     var arc4ramd: Int {

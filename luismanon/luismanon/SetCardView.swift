@@ -11,7 +11,7 @@ import UIKit
 @IBDesignable class SetCardView: UIView {
     var path = UIBezierPath()
     var cardToDraw: ModelCards!
-    var isFaceDown: Bool!
+    public var isFaceDown: Bool!
     var color : UIColor!
     var UIController: ViewController!
     var enabled: Bool = true
@@ -58,7 +58,7 @@ import UIKit
         
     }
     
-    func setCardFaceUp(flip: Bool){
+    func setCardFaceDown(flip: Bool){
         self.isFaceDown =  flip
     }
     
@@ -608,7 +608,7 @@ import UIKit
                 }
             }
         }else{
-            if let cardBackImage = UIImage(named: "cardback",
+            if let cardBackImage = UIImage(named: "back",
                                            in: Bundle(for: self.classForCoder),
                                            compatibleWith: traitCollection) {
                 cardBackImage.draw(in: bounds)

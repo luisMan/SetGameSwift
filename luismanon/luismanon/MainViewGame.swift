@@ -9,12 +9,11 @@
 import UIKit
 
 @IBDesignable class MainViewGame: UIView {
-    
+    public var grid: Grid!
     
     override func layoutSubviews() {
         super .layoutSubviews()
-        let grid = Grid(for: self.bounds, withNoOfFrames: self.subviews.count, forIdeal: 0.5)
-        
+        grid = Grid(for: self.bounds, withNoOfFrames: self.subviews.count, forIdeal: 0.5)
         for index in self.subviews.indices{
             if var frame = grid[index] {
                 frame.size.width -= 5
@@ -25,4 +24,5 @@ import UIKit
         }
        // print("the size of the array inside frid is = \() ")
     }
+
 }
